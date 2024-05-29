@@ -1,0 +1,60 @@
+﻿@page
+@model toshokan.Pages.Loans.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Loan[0].LoanDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Loan[0].ReturnDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Loan[0].Returned)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Loan[0].Book)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Loan[0].Member)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Loan) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.LoanDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReturnDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Returned)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Book.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Member.MemberID)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.LoanID">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.LoanID">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.LoanID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

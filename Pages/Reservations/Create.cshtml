@@ -1,0 +1,52 @@
+﻿@page
+@model toshokan.Pages.Reservations.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Reservation</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Reservation.BookID" class="control-label"></label>
+                <select asp-for="Reservation.BookID" class ="form-control" asp-items="ViewBag.BookID"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Reservation.MemberID" class="control-label"></label>
+                <select asp-for="Reservation.MemberID" class ="form-control" asp-items="ViewBag.MemberID"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Reservation.ReservationDate" class="control-label"></label>
+                <input asp-for="Reservation.ReservationDate" class="form-control" />
+                <span asp-validation-for="Reservation.ReservationDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Reservation.ExpirationDate" class="control-label"></label>
+                <input asp-for="Reservation.ExpirationDate" class="form-control" />
+                <span asp-validation-for="Reservation.ExpirationDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Reservation.Status" class="control-label"></label>
+                <input asp-for="Reservation.Status" class="form-control" />
+                <span asp-validation-for="Reservation.Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
