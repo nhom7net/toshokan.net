@@ -23,6 +23,15 @@ else
     app.UseMigrationsEndPoint();
 }
 
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<toshokanContext>();
+    context.Database.EnsureCreated();
+    // DbInitializer.Initialize(context);
+}
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
