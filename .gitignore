@@ -4,4 +4,4 @@ obj/
 /_ReSharper.Caches/
 /.vs/
 riderModule.iml
-toshokan.db
+*.db*
