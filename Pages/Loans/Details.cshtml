@@ -33,13 +33,14 @@
             @Html.DisplayNameFor(model => model.Loan.Book)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Loan.Book.Id)
+            @Html.DisplayFor(model => model.Loan.Book.Title)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Loan.Member)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Loan.Member.MemberID)
+            @Html.DisplayFor(model => model.Loan.Member.FirstName) 
+            @Html.DisplayFor(model => model.Loan.Member.LastName)
         </dd>
     </dl>
 </div>

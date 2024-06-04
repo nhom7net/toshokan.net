@@ -28,7 +28,12 @@ namespace toshokan.Pages.Loans
                 return NotFound();
             }
 
-            var loan = await _context.Loan.FirstOrDefaultAsync(m => m.LoanID == id);
+            var loan = await _context.Loan
+                .Include(s => s.Member)
+                .Include(s => s.Book)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.LoanID == id);
+            
             if (loan == null)
             {
                 return NotFound();
