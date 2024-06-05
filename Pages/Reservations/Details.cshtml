@@ -33,13 +33,14 @@
             @Html.DisplayNameFor(model => model.Reservation.Book)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Reservation.Book.Id)
+            @Html.DisplayFor(model => model.Reservation.Book.Title)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Reservation.Member)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Reservation.Member.MemberID)
+            @Html.DisplayFor(model => model.Reservation.Member.FirstName) 
+            @Html.DisplayFor(model => model.Reservation.Member.LastName)
         </dd>
     </dl>
 </div>

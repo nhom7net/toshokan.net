@@ -9,7 +9,5 @@
         public string PhoneNumber {  get; set; }
         public string Email { get; set; }
         public DateTime MembershipDate { get; set; }
-        ICollection<Loan> Loans { get; set; }
-        ICollection<Reservation> Reservations {  get; set; }    
     }
 }

@@ -28,7 +28,12 @@ namespace toshokan.Pages.Reservations
                 return NotFound();
             }
 
-            var reservation = await _context.Reservation.FirstOrDefaultAsync(m => m.ReservationID == id);
+            var reservation = await _context.Reservation
+                .Include(s => s.Member)
+                .Include(s => s.Book)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.ReservationID == id);
+            
             if (reservation == null)
             {
                 return NotFound();
