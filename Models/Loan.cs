@@ -8,6 +8,5 @@
         public bool Returned {  get; set; }
         public Book Book { get; set; }
         public Member Member { get; set; } 
-
     }
 }
