@@ -7,19 +7,30 @@ namespace toshokan.Utilities
 {
     public static class PopulateSelectList
     {
-        public static SelectList bookList(toshokanContext context, object selected = null)
+        public static SelectList BookList(toshokanContext context, object selected = null)
         {
             var booksQuery = from d in context.Book
                                    orderby d.Title
                                    select d;
-            return new SelectList(booksQuery.AsNoTracking(), "Id", "Id", selected);
+            return new SelectList(booksQuery.AsNoTracking(), 
+                nameof(Book.Id), 
+                nameof(Book.Title), 
+                selected);
         }
-        public static SelectList memberList(toshokanContext context, object selected = null)
+        public static SelectList MemberList(toshokanContext context, object selected = null)
         {
             var membersQuery = from d in context.Member
                              orderby d.FirstName
-                             select d;
-            return new SelectList(membersQuery.AsNoTracking(), "MemberID", "MemberID", selected);
+                             select new
+                             {
+                                 id = d.MemberID,
+                                 fullName = d.FirstName + " " + d.LastName
+                             };
+            return new SelectList(
+                membersQuery.AsNoTracking(), 
+                "id", 
+                "fullName", 
+                selected);
         }
     }
 }
