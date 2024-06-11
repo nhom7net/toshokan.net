@@ -15,12 +15,16 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Loan.Book" class="control-label"></label>
-                <select asp-for="Loan.Book" class="form-control" />
+                <select asp-for="Loan.Book" class="form-control" asp-items="@Model.BookList">
+                    <option value="">-- Select a Book --</option>
+                </select>
                 <span asp-validation-for="Loan.Book" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Loan.Member" class="control-label"></label>
-                <select asp-for="Loan.Member" class="form-control" />
+                <select asp-for="Loan.Member" class="form-control" asp-items="@Model.MemberList">
+                    <option value="">-- Select member --</option>
+                </select>
                 <span asp-validation-for="Loan.Member" class="text-danger"></span>
             </div>
             <div class="form-group">
