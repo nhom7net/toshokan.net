@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using toshokan.Data;
 
@@ -10,9 +11,11 @@ using toshokan.Data;
 namespace toshokan.Migrations
 {
     [DbContext(typeof(toshokanContext))]
-    partial class toshokanContextModelSnapshot : ModelSnapshot
+    [Migration("20240612051929_BookImg")]
+    partial class BookImg
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
@@ -32,16 +35,13 @@ namespace toshokan.Migrations
                     b.Property<string>("Genre")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ImgURL")
-                        .HasColumnType("TEXT");
-
                     b.Property<DateTime>("PublishedDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<double>("RentCost")
-                        .HasColumnType("REAL");
-
                     b.Property<string>("Title")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("imgURL")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
