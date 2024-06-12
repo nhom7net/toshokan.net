@@ -1,10 +1,30 @@
 ﻿@page
 @model IndexModel
+
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <h2>Home Page</h2>
+    <div class="row">
+        @foreach (var book in Model.Books)
+        {
+            <div class="card">
+                <div class="card-image">
+                    <img src="@book.ImgURL" alt="@book.Title" class="img-fluid">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">@book.Title</h5>
+                    <h6 class="card-author mb-2 text-muted">Author: @book.Author</h6>
+                    <p class="card-genre">Genre: @book.Genre</p>
+                    <p class="card-rent">Rental Price: @book.RentCost.ToString("C", new System.Globalization.CultureInfo("en-US"))</p>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-success btn-block">Rent Book</button>
+                    <button class="btn btn-primary btn-block">Book Details</button>
+                </div>
+            </div>
+        }
+    </div>
 </div>
