@@ -40,6 +40,16 @@
                 <span asp-validation-for="Book.PublishedDate" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Book.ImgURL" class="control-label"></label>
+                <input asp-for="Book.ImgURL" class="form-control" />
+                <span asp-validation-for="Book.ImgURL" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Book.RentCost" class="control-label"></label>
+                <input asp-for="Book.RentCost" class="form-control" />
+                <span asp-validation-for="Book.RentCost" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
