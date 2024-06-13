@@ -41,6 +41,18 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Book.PublishedDate)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Book.ImgURL)
+        </dt>
+        <dd class="col-sm-10">
+            <img src="@Model.Book.ImgURL" alt="Book Image" class="img-small" />
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Book.RentCost)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Book.RentCost)
+        </dd>
     </dl>
 </div>
 <div>

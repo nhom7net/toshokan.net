@@ -24,18 +24,30 @@ namespace toshokan.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Author")
+                        .IsRequired()
+                        .HasMaxLength(60)
                         .HasColumnType("TEXT");
 
                     b.Property<int>("CopiesAvailable")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Genre")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ImgURL")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("PublishedDate")
                         .HasColumnType("TEXT");
 
+                    b.Property<decimal>("RentCost")
+                        .HasColumnType("decimal(18, 2)");
+
                     b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -75,13 +87,13 @@ namespace toshokan.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("BookID")
+                    b.Property<int?>("BookId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("LoanDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("MemberID")
+                    b.Property<int?>("MemberID")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime?>("ReturnDate")
@@ -92,7 +104,7 @@ namespace toshokan.Migrations
 
                     b.HasKey("LoanID");
 
-                    b.HasIndex("BookID");
+                    b.HasIndex("BookId");
 
                     b.HasIndex("MemberID");
 
@@ -134,13 +146,13 @@ namespace toshokan.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("BookID")
+                    b.Property<int?>("BookId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("ExpirationDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("MemberID")
+                    b.Property<int?>("MemberID")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("ReservationDate")
@@ -151,7 +163,7 @@ namespace toshokan.Migrations
 
                     b.HasKey("ReservationID");
 
-                    b.HasIndex("BookID");
+                    b.HasIndex("BookId");
 
                     b.HasIndex("MemberID");
 
@@ -161,16 +173,12 @@ namespace toshokan.Migrations
             modelBuilder.Entity("toshokan.Models.Loan", b =>
                 {
                     b.HasOne("toshokan.Models.Book", "Book")
-                        .WithMany("Loans")
-                        .HasForeignKey("BookID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("BookId");
 
                     b.HasOne("toshokan.Models.Member", "Member")
                         .WithMany()
-                        .HasForeignKey("MemberID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MemberID");
 
                     b.Navigation("Book");
 
@@ -181,24 +189,15 @@ namespace toshokan.Migrations
                 {
                     b.HasOne("toshokan.Models.Book", "Book")
                         .WithMany()
-                        .HasForeignKey("BookID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("BookId");
 
                     b.HasOne("toshokan.Models.Member", "Member")
                         .WithMany()
-                        .HasForeignKey("MemberID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MemberID");
 
                     b.Navigation("Book");
 
                     b.Navigation("Member");
-                });
-
-            modelBuilder.Entity("toshokan.Models.Book", b =>
-                {
-                    b.Navigation("Loans");
                 });
 #pragma warning restore 612, 618
         }

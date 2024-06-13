@@ -1,5 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Localization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using System.Globalization;
 using toshokan.Data;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +12,6 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<toshokanContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("toshokanContext") ?? throw new InvalidOperationException("Connection string 'toshokanContext' not found.")));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
 
 // Add session
 builder.Services.AddSession(options =>
@@ -22,6 +24,16 @@ builder.Services.AddSession(options =>
 
     // Cấu hình các tùy chọn khác nếu cần
 });
+builder.Services.AddControllersWithViews();
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    var supportedCultures = new[] { new CultureInfo("en-US") };
+    options.DefaultRequestCulture = new RequestCulture("en-US");
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+});
+
 var app = builder.Build();
 
 
@@ -52,6 +64,10 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthorization();
 app.UseSession();
+
+var options = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
+
+app.UseRequestLocalization(options.Value);
 app.MapRazorPages();
 
 app.Run();
