@@ -9,4 +9,4 @@
         public string Email { get; set; }
         public DateTime EmploymentDate { get; set; }
     }
-}
+} 
