@@ -17,11 +17,13 @@ namespace toshokan.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Title = table.Column<string>(type: "TEXT", nullable: true),
-                    Author = table.Column<string>(type: "TEXT", nullable: true),
-                    Genre = table.Column<string>(type: "TEXT", nullable: true),
+                    Title = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
+                    Author = table.Column<string>(type: "TEXT", maxLength: 60, nullable: false),
+                    Genre = table.Column<string>(type: "TEXT", maxLength: 30, nullable: false),
                     CopiesAvailable = table.Column<int>(type: "INTEGER", nullable: false),
-                    PublishedDate = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    PublishedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    ImgURL = table.Column<string>(type: "TEXT", nullable: true),
+                    RentCost = table.Column<decimal>(type: "decimal(18, 2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -36,9 +38,9 @@ namespace toshokan.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     FirstName = table.Column<string>(type: "TEXT", nullable: true),
                     LastName = table.Column<string>(type: "TEXT", nullable: true),
-                    EmploymentDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     PhoneNumber = table.Column<string>(type: "TEXT", nullable: true),
-                    Email = table.Column<string>(type: "TEXT", nullable: true)
+                    Email = table.Column<string>(type: "TEXT", nullable: true),
+                    EmploymentDate = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -53,10 +55,10 @@ namespace toshokan.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     FirstName = table.Column<string>(type: "TEXT", nullable: true),
                     LastName = table.Column<string>(type: "TEXT", nullable: true),
-                    MembershipDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Address = table.Column<string>(type: "TEXT", nullable: true),
                     PhoneNumber = table.Column<string>(type: "TEXT", nullable: true),
-                    Email = table.Column<string>(type: "TEXT", nullable: true)
+                    Email = table.Column<string>(type: "TEXT", nullable: true),
+                    MembershipDate = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -69,27 +71,25 @@ namespace toshokan.Migrations
                 {
                     LoanID = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    BookID = table.Column<int>(type: "INTEGER", nullable: false),
-                    MemberID = table.Column<int>(type: "INTEGER", nullable: false),
                     LoanDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     ReturnDate = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    Returned = table.Column<bool>(type: "INTEGER", nullable: false)
+                    Returned = table.Column<bool>(type: "INTEGER", nullable: false),
+                    BookId = table.Column<int>(type: "INTEGER", nullable: true),
+                    MemberID = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Loan", x => x.LoanID);
                     table.ForeignKey(
-                        name: "FK_Loan_Book_BookID",
-                        column: x => x.BookID,
+                        name: "FK_Loan_Book_BookId",
+                        column: x => x.BookId,
                         principalTable: "Book",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Loan_Member_MemberID",
                         column: x => x.MemberID,
                         principalTable: "Member",
-                        principalColumn: "MemberID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "MemberID");
                 });
 
             migrationBuilder.CreateTable(
@@ -98,33 +98,31 @@ namespace toshokan.Migrations
                 {
                     ReservationID = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    BookID = table.Column<int>(type: "INTEGER", nullable: false),
-                    MemberID = table.Column<int>(type: "INTEGER", nullable: false),
                     ReservationDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     ExpirationDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Status = table.Column<string>(type: "TEXT", nullable: true)
+                    Status = table.Column<string>(type: "TEXT", nullable: true),
+                    BookId = table.Column<int>(type: "INTEGER", nullable: true),
+                    MemberID = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reservation", x => x.ReservationID);
                     table.ForeignKey(
-                        name: "FK_Reservation_Book_BookID",
-                        column: x => x.BookID,
+                        name: "FK_Reservation_Book_BookId",
+                        column: x => x.BookId,
                         principalTable: "Book",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Reservation_Member_MemberID",
                         column: x => x.MemberID,
                         principalTable: "Member",
-                        principalColumn: "MemberID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "MemberID");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Loan_BookID",
+                name: "IX_Loan_BookId",
                 table: "Loan",
-                column: "BookID");
+                column: "BookId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Loan_MemberID",
@@ -132,9 +130,9 @@ namespace toshokan.Migrations
                 column: "MemberID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reservation_BookID",
+                name: "IX_Reservation_BookId",
                 table: "Reservation",
-                column: "BookID");
+                column: "BookId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reservation_MemberID",

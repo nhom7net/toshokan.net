@@ -24,12 +24,16 @@ namespace toshokan.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Author")
+                        .IsRequired()
+                        .HasMaxLength(60)
                         .HasColumnType("TEXT");
 
                     b.Property<int>("CopiesAvailable")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Genre")
+                        .IsRequired()
+                        .HasMaxLength(30)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ImgURL")
@@ -38,10 +42,12 @@ namespace toshokan.Migrations
                     b.Property<DateTime>("PublishedDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<double>("RentCost")
-                        .HasColumnType("REAL");
+                    b.Property<decimal>("RentCost")
+                        .HasColumnType("decimal(18, 2)");
 
                     b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
