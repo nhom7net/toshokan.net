@@ -2,3 +2,8 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+
+function rentBookConfirm(bookId) {
+    window.location.href = 'https://localhost:7095/Books/Details?id=' + bookId;
+}
+
