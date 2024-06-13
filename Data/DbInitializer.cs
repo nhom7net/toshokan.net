@@ -39,6 +39,7 @@ public static class DbInitializer
             new Member { FirstName = "Jennifer", LastName = "Hernandez", Address = "1819 Poplar St", PhoneNumber = "415-987-3210", Email = "jennifer.hernandez@example.com", MembershipDate = DateTime.Now.AddMonths(-5) },
             new Member { FirstName = "Christopher", LastName = "Lopez", Address = "2021 Willow Way", PhoneNumber = "818-369-1578", Email = "christopher.lopez@example.com", MembershipDate = DateTime.Now.AddMonths(-6) },
             new Member { FirstName = "Amanda", LastName = "Clark", Address = "2223 Elm St", PhoneNumber = "617-258-9471", Email = "amanda.clark@example.com", MembershipDate = DateTime.Now.AddMonths(-7) },
+             new Member { FirstName = "Duc", LastName = "Tin", Address = "1223 Elm St", PhoneNumber = "617-258-9471", Email = "amanda.clark@example.com", MembershipDate = DateTime.Now.AddMonths(-7),Username = "tin", Password ="1234"},
         };
 
         context.Member.AddRange(members);
@@ -51,6 +52,7 @@ public static class DbInitializer
             new Librarian { FirstName = "Charles", LastName = "Garcia", PhoneNumber = "310-246-8100", Email = "charles.garcia@library.com", EmploymentDate = DateTime.Now.AddDays(-30) },
             new Librarian { FirstName = "Diana", LastName = "Lee", PhoneNumber = "617-369-7852", Email = "diana.lee@library.com", EmploymentDate = DateTime.Now.AddMonths(-3) },
             new Librarian { FirstName = "Edward", LastName = "Miller", PhoneNumber = "502-987-1215", Email = "edward.miller@library.com", EmploymentDate = DateTime.Now.AddMonths(-7) },
+            new Librarian { FirstName = "Duc", LastName = "Tin", PhoneNumber = "206-155-1234", Email = "alice.thompson@library.com", EmploymentDate = DateTime.Now.AddYears(-2), Username = "admin", Password ="123" }, 
         };
         
         context.Librarian.AddRange(librarians);
