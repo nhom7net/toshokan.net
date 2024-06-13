@@ -1,19 +1,26 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using toshokan.Models;
+using toshokan.Data;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
 
 namespace toshokan.Pages;
 
 public class IndexModel : PageModel
 {
-    private readonly ILogger<IndexModel> _logger;
+    private readonly toshokanContext _context;
 
-    public IndexModel(ILogger<IndexModel> logger)
+    public IndexModel(toshokanContext context)
     {
-        _logger = logger;
+        _context = context;
     }
 
-    public void OnGet()
-    {
+    public IList<Book> Books { get; set; }
 
+    public async Task OnGetAsync()
+    {
+        Books = await _context.Book.ToListAsync();
     }
 }
