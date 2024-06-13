@@ -1,0 +1,41 @@
+﻿@page
+@model toshokan.Pages.Accounts.LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h2>Login</h2>
+@if (!ModelState.IsValid)
+{
+    <div class="alert alert-danger" role="alert">
+        @foreach (var modelState in ViewData.ModelState.Values)
+        {
+            foreach (var error in modelState.Errors)
+            {
+                <p>@error.ErrorMessage</p>
+            }
+        }
+    </div>
+}
+<div class="col-md-4" >
+    <form method="post">
+        <div class="form-group">
+            <label asp-for="Members.Username" class="control-label"></label>
+            <input asp-for="Members.Username" class="form-control" />
+            <span asp-validation-for="Members.Username" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Members.Password" class="control-label"></label>
+            <input type="password" asp-for="Members.Password" class="form-control" />
+            <span asp-validation-for="Members.Password" class="text-danger"></span>
+        </div>
+        <div class="form-group login-container">
+            <button type="submit" class="btn btn-primary">Login</button>
+            <a class="text-dark" asp-area="" asp-page="/Accounts/AdminLogin">AdminLogin</a>
+        </div>       
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
