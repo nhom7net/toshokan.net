@@ -11,7 +11,7 @@ using toshokan.Data;
 namespace toshokan.Migrations
 {
     [DbContext(typeof(toshokanContext))]
-    [Migration("20240613074419_InitialCreate")]
+    [Migration("20240613081200_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

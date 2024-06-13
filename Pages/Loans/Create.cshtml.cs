@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using toshokan.Data;
 using toshokan.Models;
+using toshokan.Utilities;
 
 namespace toshokan.Pages.Loans
 {
@@ -18,18 +20,20 @@ namespace toshokan.Pages.Loans
         {
             _context = context;
         }
+        
+        public SelectList BookList { get; set; }
+        public SelectList MemberList { get; set; }
 
         public IActionResult OnGet()
         {
-        ViewData["BookID"] = new SelectList(_context.Book, "Id", "Id");
-        ViewData["MemberID"] = new SelectList(_context.Set<Member>(), "MemberID", "MemberID");
+            BookList = PopulateSelectList.BookList(_context);
+            MemberList = PopulateSelectList.MemberList(_context);
             return Page();
         }
 
         [BindProperty]
         public Loan Loan { get; set; } = default!;
-
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+        
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
@@ -37,10 +41,27 @@ namespace toshokan.Pages.Loans
                 return Page();
             }
 
-            _context.Loan.Add(Loan);
-            await _context.SaveChangesAsync();
+            var loanData = new Loan();
+            
+            if (await TryUpdateModelAsync(
+                    loanData, "loan",
+                    s => s.LoanID,
+                    s => s.LoanDate,
+                    s => s.ReturnDate,
+                    s => s.Returned))
+            {
+                loanData.Book = await _context.Book.FindAsync(Int32.Parse(Request.Form["Loan.Book"]));
+                loanData.Member = await _context.Member.FindAsync(Int32.Parse(Request.Form["Loan.Member"]));
+                
+                _context.Loan.Add(loanData);
+                await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+                return RedirectToPage("./Index");
+            }
+
+            BookList = PopulateSelectList.BookList(_context, loanData.Book);
+            MemberList = PopulateSelectList.MemberList(_context, loanData.Member);
+            return Page();
         }
     }
 }

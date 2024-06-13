@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using toshokan.Data;
 using toshokan.Models;
+using toshokan.Utilities;
 
 namespace toshokan.Pages.Loans
 {
@@ -19,7 +20,9 @@ namespace toshokan.Pages.Loans
         {
             _context = context;
         }
-
+        
+        public SelectList BookList { get; set; }
+        public SelectList MemberList { get; set; }
         [BindProperty]
         public Loan Loan { get; set; } = default!;
 
@@ -30,14 +33,22 @@ namespace toshokan.Pages.Loans
                 return NotFound();
             }
 
-            var loan =  await _context.Loan.FirstOrDefaultAsync(m => m.LoanID == id);
+            var loan = await _context.Loan
+                .Include(c => c.Book)
+                .Include(c => c.Member)
+                .FirstOrDefaultAsync(m => m.LoanID == id);
+            
             if (loan == null)
             {
                 return NotFound();
             }
             Loan = loan;
-           ViewData["BookID"] = new SelectList(_context.Book, "Id", "Id");
-           ViewData["MemberID"] = new SelectList(_context.Set<Member>(), "MemberID", "MemberID");
+            
+            // FIXME: While showing being selected in data (debugging),
+            //        the view itself doesn't reflect such value.
+            BookList = PopulateSelectList.BookList(_context, loan.Book.Id);
+            MemberList = PopulateSelectList.MemberList(_context, loan.Member.MemberID);
+            
             return Page();
         }
 
@@ -49,24 +60,20 @@ namespace toshokan.Pages.Loans
             {
                 return Page();
             }
+            
+            if (!LoanExists(Loan.LoanID))
+            {
+                return NotFound();
+            }
 
             _context.Attach(Loan).State = EntityState.Modified;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!LoanExists(Loan.LoanID))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            var dataUpdate = await _context.Loan.FindAsync(Loan.LoanID);
+            
+            dataUpdate.Book = await _context.Book.FindAsync(Int32.Parse(Request.Form["Loan.Book"]));
+            dataUpdate.Member = await _context.Member.FindAsync(Int32.Parse(Request.Form["Loan.Member"]));
+            
+            await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
         }
