@@ -22,7 +22,8 @@ body {
 }
 
 .login-container {
-    margin-top: 20px; 
+    margin-top: 20px;
+}
 
 .card {
     flex: 1 0 21%;
