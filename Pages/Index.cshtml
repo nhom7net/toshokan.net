@@ -21,8 +21,7 @@
                     <p class="card-rent">Rental Price: @book.RentCost.ToString("C", new System.Globalization.CultureInfo("en-US"))</p>
                 </div>
                 <div class="card-footer">
-                    <button class="btn btn-success btn-block">Rent Book</button>
-                    <button class="btn btn-primary btn-block">Book Details</button>
+                    <button class="btn btn-success btn-block" onclick="rentBookConfirm('@book.Id')">Rent Book</button>
                 </div>
             </div>
         }
