@@ -15,18 +15,18 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Reservation.ReservationID" />
             <div class="form-group">
-                <label asp-for="Reservation.Book" class="control-label"></label>
-                <select asp-for="Reservation.Book" class="form-control" asp-items="@Model.BookList">
+                <label asp-for="SelectedBook" class="control-label"></label>
+                <select asp-for="SelectedBook" class="form-control" asp-items="@Model.BookList">
                     <option value="">-- Select a Book --</option>
                 </select>
-                <span asp-validation-for="Reservation.Book" class="text-danger"></span>
+                <span asp-validation-for="SelectedBook" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Reservation.Member" class="control-label"></label>
-                <select asp-for="Reservation.Member" class="form-control" asp-items="@Model.MemberList">
+                <label asp-for="SelectedMember" class="control-label"></label>
+                <select asp-for="SelectedMember" class="form-control" asp-items="@Model.MemberList">
                     <option value="">-- Select member --</option>
                 </select>
-                <span asp-validation-for="Reservation.Member" class="text-danger"></span>
+                <span asp-validation-for="SelectedMember" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Reservation.ReservationDate" class="control-label"></label>

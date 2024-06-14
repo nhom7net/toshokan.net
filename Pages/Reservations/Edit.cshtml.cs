@@ -26,7 +26,12 @@ namespace toshokan.Pages.Reservations
         
         public SelectList BookList { get; set; }
         public SelectList MemberList { get; set; }
-
+        
+        [BindProperty]
+        public int SelectedBook { get; set; }
+        [BindProperty]
+        public int SelectedMember { get; set; }
+        
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -34,7 +39,7 @@ namespace toshokan.Pages.Reservations
                 return NotFound();
             }
 
-            var reservation =  await _context.Reservation
+            var reservation = await _context.Reservation
                 .Include(c => c.Book)
                 .Include(c => c.Member)
                 .FirstOrDefaultAsync(m => m.ReservationID == id);
@@ -44,11 +49,12 @@ namespace toshokan.Pages.Reservations
                 return NotFound();
             }
             Reservation = reservation;
+            
+            BookList = PopulateSelectList.BookList(_context);
+            MemberList = PopulateSelectList.MemberList(_context);
 
-            // FIXME: While showing being selected in data (debugging),
-            //        the view itself doesn't reflect such value.
-            BookList = PopulateSelectList.BookList(_context, reservation.Book.Id);
-            MemberList = PopulateSelectList.MemberList(_context, reservation.Member.MemberID);
+            SelectedBook = reservation.Book.Id;
+            SelectedMember = reservation.Member.MemberID;
             
             return Page();
         }
@@ -65,10 +71,13 @@ namespace toshokan.Pages.Reservations
             _context.Attach(Reservation).State = EntityState.Modified;
 
             var dataUpdate = await _context.Reservation.FindAsync(Reservation.ReservationID);
-            
-            dataUpdate.Book = await _context.Book.FindAsync(Int32.Parse(Request.Form["Reservation.Book"]));
-            dataUpdate.Member = await _context.Member.FindAsync(Int32.Parse(Request.Form["Reservation.Member"]));
-            
+
+            if (dataUpdate != null)
+            {
+                dataUpdate.Book = await _context.Book.FindAsync(Int32.Parse(Request.Form["Reservation.Book"]));
+                dataUpdate.Member = await _context.Member.FindAsync(Int32.Parse(Request.Form["Reservation.Member"]));
+            }
+
             try
             {
                 await _context.SaveChangesAsync();
