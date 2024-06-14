@@ -1,12 +1,27 @@
-﻿namespace toshokan.Models
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace toshokan.Models
 {
     public class Loan
     {
-        public int LoanID { get; set; } 
+        [Key]
+        public int LoanID { get; set; }
+
+        [Required(ErrorMessage = "Loan date is required")]
+        [DataType(DataType.Date)]
         public DateTime LoanDate { get; set; }
+
+        [DataType(DataType.Date)]
         public DateTime? ReturnDate { get; set; }
-        public bool Returned {  get; set; }
+
+        [Required(ErrorMessage = "Returned status is required")]
+        public bool Returned { get; set; }
+
+        [Required(ErrorMessage = "Book is required")]
         public Book Book { get; set; }
-        public Member Member { get; set; } 
+
+        [Required(ErrorMessage = "Member is required")]
+        public Member Member { get; set; }
     }
 }
