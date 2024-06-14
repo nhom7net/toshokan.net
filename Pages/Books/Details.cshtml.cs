@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 using toshokan.Data;
 using toshokan.Models;
 
@@ -12,14 +10,15 @@ namespace toshokan.Pages.Books
 {
     public class DetailsModel : PageModel
     {
-        private readonly toshokan.Data.toshokanContext _context;
+        private readonly toshokanContext _context;
 
-        public DetailsModel(toshokan.Data.toshokanContext context)
+        public DetailsModel(toshokanContext context)
         {
             _context = context;
         }
 
-        public Book Book { get; set; } = default!;
+        public Book Book { get; set; }
+        public Member CurrentMember { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,16 +27,24 @@ namespace toshokan.Pages.Books
                 return NotFound();
             }
 
-            var book = await _context.Book.FirstOrDefaultAsync(m => m.Id == id);
-            if (book == null)
+            Book = await _context.Book.FirstOrDefaultAsync(m => m.Id == id);
+
+            if (Book == null)
             {
                 return NotFound();
             }
-            else
+
+            // Get current logged-in username from session
+            var userName = HttpContext.Session.GetString("Username");
+
+            if (!string.IsNullOrEmpty(userName))
             {
-                Book = book;
+                CurrentMember = await _context.Member.FirstOrDefaultAsync(m => m.Username == userName);
             }
+
             return Page();
-        }
+        }        
+
+
     }
 }

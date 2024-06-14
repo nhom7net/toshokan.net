@@ -56,6 +56,22 @@
     </dl>
 </div>
 
+@if (HttpContext.Session.GetString("isLoggedIn") == "true" && HttpContext.Session.GetString("userRole") == "Member")
+{
+    <div>
+        <h4>Members</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                Member:
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CurrentMember.LastName) @Html.DisplayFor(model => model.CurrentMember.FirstName)
+            </dd>
+        </dl>
+    </div>
+}
+
 @if (HttpContext.Session.GetString("isLoggedIn") == "true")
 {
     @if (HttpContext.Session.GetString("userRole") == "Admin")
@@ -82,6 +98,14 @@
                 <p><strong>Title:</strong> @Model.Book.Title</p>
                 <p><strong>Author:</strong> @Model.Book.Author</p>
                 <p><strong>Rent Cost:</strong> @Model.Book.RentCost.ToString("C", new System.Globalization.CultureInfo("en-US"))</p>
+                @if (Model.CurrentMember != null)
+                {
+                    <p><strong>Member:</strong> @Model.CurrentMember.LastName @Model.CurrentMember.FirstName</p>
+                }
+                else
+                {
+                    <p><strong>Member:</strong> N/A</p>
+                }
             </div>
             <div class="modal-footer">
                 <button id="closeButton" type="button" class="btn btn-secondary">Close</button>
@@ -104,4 +128,3 @@
         });
     </script>
 }
-
