@@ -23,6 +23,12 @@ namespace toshokan.Pages.Loans
         
         public SelectList BookList { get; set; }
         public SelectList MemberList { get; set; }
+        
+        [BindProperty]
+        public int SelectedBook { get; set; }
+        [BindProperty]
+        public int SelectedMember { get; set; }
+        
         [BindProperty]
         public Loan Loan { get; set; } = default!;
 
@@ -44,10 +50,11 @@ namespace toshokan.Pages.Loans
             }
             Loan = loan;
             
-            // FIXME: While showing being selected in data (debugging),
-            //        the view itself doesn't reflect such value.
-            BookList = PopulateSelectList.BookList(_context, loan.Book.Id);
-            MemberList = PopulateSelectList.MemberList(_context, loan.Member.MemberID);
+            BookList = PopulateSelectList.BookList(_context);
+            MemberList = PopulateSelectList.MemberList(_context);
+            
+            SelectedBook = loan.Book.Id;
+            SelectedMember = loan.Member.MemberID;
             
             return Page();
         }
