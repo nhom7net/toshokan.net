@@ -18,10 +18,10 @@ namespace toshokan.Models
         [Required(ErrorMessage = "Returned status is required")]
         public bool Returned { get; set; }
 
-        [Required(ErrorMessage = "Book is required")]
+       
         public Book Book { get; set; }
 
-        [Required(ErrorMessage = "Member is required")]
+      
         public Member Member { get; set; }
     }
 }

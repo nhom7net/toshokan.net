@@ -17,14 +17,13 @@ namespace toshokan.Models
         [FutureDate(ErrorMessage = "Expiration date must be in the future.")]
         public DateTime ExpirationDate { get; set; }
 
-        [Required(ErrorMessage = "Status is required.")]
         [StringLength(20, ErrorMessage = "Status cannot be longer than 20 characters.")]
         public string Status { get; set; }
 
-        [Required(ErrorMessage = "Book is required.")]
+  
         public Book Book { get; set; }
 
-        [Required(ErrorMessage = "Member is required.")]
+    
         public Member Member { get; set; }
     }
 
