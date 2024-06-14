@@ -19,7 +19,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Loan[0].ReturnDate)
             </th>
-            <th>
+            <th >
                 @Html.DisplayNameFor(model => model.Loan[0].Returned)
             </th>
             <th>
@@ -51,9 +51,9 @@
                 @Html.DisplayFor(modelItem => item.Member.LastName)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.LoanID">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.LoanID">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.LoanID">Delete</a>
+                    <a class="btn btn-outline-primary" asp-page="./Edit" asp-route-id="@item.LoanID">Edit</a> 
+                    <a class="btn btn-outline-secondary" asp-page="./Details" asp-route-id="@item.LoanID">Details</a> 
+                    <a class="btn btn-outline-warning" asp-page="./Delete" asp-route-id="@item.LoanID">Delete</a>
             </td>
         </tr>
 }
