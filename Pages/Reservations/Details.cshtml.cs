@@ -44,5 +44,41 @@ namespace toshokan.Pages.Reservations
             }
             return Page();
         }
+
+        public async Task<IActionResult> OnPostMoveToLoan(int id)
+        {
+            if (!ModelState.IsValid) return Page();
+            
+            var reservation = await _context.Reservation
+                .Include(s => s.Member)
+                .Include(s => s.Book)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.ReservationID == id);
+
+            var reserved = new Reservation() { ReservationID = id };
+            
+            Loan loanData = new Loan();
+            
+            if (await TryUpdateModelAsync(
+                    loanData, "loan",
+                    s => s.LoanID,
+                    s => s.ReturnDate,
+                    s => s.Returned))
+            {
+                loanData.LoanDate = DateTime.Now;
+                loanData.Book = await _context.Book.FindAsync(reservation.Book.Id);
+                loanData.Member = await _context.Member.FindAsync(reservation.Member.MemberID);
+                
+                _context.Loan.Add(loanData);
+                
+                _context.Reservation.Remove(reserved);
+                
+                await _context.SaveChangesAsync();
+
+                return RedirectToPage("/Loans/Edit", new { id = loanData.LoanID, newrent = true });
+            }
+
+            return Page();
+        }
     }
 }

@@ -74,8 +74,8 @@ namespace toshokan.Pages.Reservations
 
             if (dataUpdate != null)
             {
-                dataUpdate.Book = await _context.Book.FindAsync(Int32.Parse(Request.Form["Reservation.Book"]));
-                dataUpdate.Member = await _context.Member.FindAsync(Int32.Parse(Request.Form["Reservation.Member"]));
+                dataUpdate.Book = await _context.Book.FindAsync(SelectedBook);
+                dataUpdate.Member = await _context.Member.FindAsync(SelectedMember);
             }
 
             try

@@ -32,12 +32,14 @@ namespace toshokan.Pages.Loans
         [BindProperty]
         public Loan Loan { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int? id, bool newrent = false)
         {
             if (id == null)
             {
                 return NotFound();
             }
+
+            ViewData["newrent"] = newrent;
 
             var loan = await _context.Loan
                 .Include(c => c.Book)
@@ -77,8 +79,8 @@ namespace toshokan.Pages.Loans
 
             var dataUpdate = await _context.Loan.FindAsync(Loan.LoanID);
             
-            dataUpdate.Book = await _context.Book.FindAsync(Int32.Parse(Request.Form["Loan.Book"]));
-            dataUpdate.Member = await _context.Member.FindAsync(Int32.Parse(Request.Form["Loan.Member"]));
+            dataUpdate.Book = await _context.Book.FindAsync(SelectedBook);
+            dataUpdate.Member = await _context.Member.FindAsync(SelectedMember);
             
             await _context.SaveChangesAsync();
 

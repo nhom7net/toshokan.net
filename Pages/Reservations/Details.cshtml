@@ -52,7 +52,7 @@
     </dl>
 </div>
 <div>
-    <form asp-page-handler="" method="post">
+    <form asp-page-handler="MoveToLoan" asp-route-id="@Model.Reservation.ReservationID" method="post">
         <button class="btn btn-primary">Start Rent</button>
     </form>
     <p>This will move this entry to Loan.</p>
