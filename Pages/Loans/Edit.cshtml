@@ -1,4 +1,5 @@
 ﻿@page
+@using Microsoft.AspNetCore.Http.Extensions
 @model toshokan.Pages.Loans.EditModel
 
 @{
@@ -9,6 +10,14 @@
 
 <h4>Loan</h4>
 <hr />
+
+@if ((bool) ViewData["newrent"]!)
+{
+    <div class="alert alert-info">
+        <p>Renting started for @Model.Loan.Member.FirstName @Model.Loan.Member.LastName successfully!</p>
+        <span>Make sure to change return date!</span>
+    </div>
+}
 <div class="row">
     <div class="col-md-4">
         <form method="post">
