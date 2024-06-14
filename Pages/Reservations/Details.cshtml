@@ -27,7 +27,14 @@
             @Html.DisplayNameFor(model => model.Reservation.Status)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Reservation.Status)
+            @if (Model.Reservation.ExpirationDate < DateTime.Now)
+            {
+                @:Expired
+            }
+            else
+            {
+                @:Pending
+            }
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Reservation.Book)
@@ -43,6 +50,12 @@
             @Html.DisplayFor(model => model.Reservation.Member.LastName)
         </dd>
     </dl>
+</div>
+<div>
+    <form asp-page-handler="" method="post">
+        <button class="btn btn-primary">Start Rent</button>
+    </form>
+    <p>This will move this entry to Loan.</p>
 </div>
 <div>
     <a asp-page="./Edit" asp-route-id="@Model.Reservation.ReservationID">Edit</a> |

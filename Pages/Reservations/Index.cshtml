@@ -41,7 +41,14 @@
                 @Html.DisplayFor(modelItem => item.ExpirationDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Status)
+                @if (item.ExpirationDate < DateTime.Now)
+                {
+                    @:Expired
+                }
+                else
+                {
+                    @:Pending
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Book.Title)
@@ -51,7 +58,6 @@
                 @Html.DisplayFor(modelItem => item.Member.LastName)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.ReservationID">Edit</a> |
                 <a asp-page="./Details" asp-route-id="@item.ReservationID">Details</a> |
                 <a asp-page="./Delete" asp-route-id="@item.ReservationID">Delete</a>
             </td>
