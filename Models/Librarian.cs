@@ -17,7 +17,7 @@ namespace toshokan.Models
         [Phone(ErrorMessage = "Invalid phone number")]
         public string PhoneNumber { get; set; }
 
-        [EmailAddress(ErrorMessage = "Invalid email address")]
+        [EmailAddress(ErrorMessage = "Invalid email address")] 
         public string Email { get; set; }
 
         [DataType(DataType.Date)]
