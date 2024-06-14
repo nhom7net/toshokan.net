@@ -38,7 +38,7 @@ namespace toshokan.Pages.Accounts
             var member = _context.Member.FirstOrDefault(m => m.Username == Members.Username && m.Password == Members.Password);
             if(member == null)
             {
-                ModelState.AddModelError(string.Empty, "Ten dang nhap hoac mat khau khong dung.");
+                ModelState.AddModelError(string.Empty, "Incorrect username or password!");
                 return Page();
                 
             }

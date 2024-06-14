@@ -25,7 +25,7 @@ namespace toshokan.Pages.Accounts
             var librarian = _context.Librarian.FirstOrDefault(l => l.Username == Librarians.Username && l.Password == Librarians.Password);
             if (librarian == null)
             {
-                ModelState.AddModelError(string.Empty, "Ten dang nhap hoac mat khau Admin khong dung.");
+                ModelState.AddModelError(string.Empty, "Incorrect username or password!");
                 return Page();
 
             }
