@@ -4,6 +4,6 @@
 // Write your JavaScript code.
 
 function rentBookConfirm(bookId) {
-    window.location.href = 'https://localhost:7095/Books/Details?id=' + bookId;
+    window.location.href = '/Books/Details?id=' + bookId;
 }
 
