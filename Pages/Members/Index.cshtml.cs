@@ -18,7 +18,7 @@ namespace toshokan.Pages.Members
         {
             _context = context;
         }
-
+         
         public IList<Member> Member { get; set; } = default!;
 
         [BindProperty(SupportsGet = true)]

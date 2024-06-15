@@ -16,7 +16,7 @@ namespace toshokan.Pages.Loans
         private readonly toshokanContext _context;
 
         public IndexModel(toshokanContext context)
-        {
+        { 
             _context = context;
         }
 

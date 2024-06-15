@@ -18,7 +18,7 @@ namespace toshokan.Pages.Reservations
         {
             _context = context;
         }
-
+         
         public IList<Reservation> Reservation { get; set; }
 
         [BindProperty(SupportsGet = true)]

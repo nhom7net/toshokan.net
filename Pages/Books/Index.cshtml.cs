@@ -11,7 +11,7 @@ using toshokan.Models;
 namespace toshokan.Pages.Books
 {
     public class IndexModel : PageModel
-    {
+    { 
         private readonly toshokanContext _context;
 
         public IndexModel(toshokanContext context)
