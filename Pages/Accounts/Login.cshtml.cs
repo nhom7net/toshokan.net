@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
 using toshokan.Data;
 using toshokan.Models;
 
@@ -14,7 +15,19 @@ namespace toshokan.Pages.Accounts
         }
         [BindProperty]
         public Member Members { get; set; }
-  
+        public class Member
+        {
+            [StringLength(40)]
+            [Required(ErrorMessage = "Username is required.")]
+            public string Username { get; set; }
+
+            [StringLength(15)]
+            [Required(ErrorMessage = "Password is required.")]
+            [DataType(DataType.Password)]
+            public string Password { get; set; }
+
+        }
+
         public IActionResult OnPost()
         {
             if (!ModelState.IsValid)
