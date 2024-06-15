@@ -17,9 +17,6 @@ namespace toshokan.Models
         [RegularExpression(@"^[A-Z]+[a-zA-Z\s]*$"), Required, StringLength(30)]
         public string Genre { get; set; }
 
-        [Range(0, int.MaxValue)]
-        public int CopiesAvailable { get; set; }
-
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
         public DateTime PublishedDate { get; set; }

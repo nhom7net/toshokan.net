@@ -50,9 +50,9 @@
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.LibrarianID">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.LibrarianID">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.LibrarianID">Delete</a>
+                    <a class="btn btn-outline-primary" asp-page="./Edit" asp-route-id="@item.LibrarianID">Edit</a> 
+                    <a class="btn btn-outline-secondary" asp-page="./Details" asp-route-id="@item.LibrarianID">Details</a> 
+                    <a class="btn btn-outline-warning" asp-page="./Delete" asp-route-id="@item.LibrarianID">Delete</a>
             </td>
         </tr>
 }

@@ -39,18 +39,23 @@
                                     <a class="nav-link text-dark" asp-area="" asp-page="/Reservations/Index">Reservations</a>
                                 </li>
                             }
-                            <li class="nav-item">
+                            <li class="nav-login">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Accounts/Logout">Logout</a>
                             </li>
                         }
                         else
                         {
-                            <li class="nav-item">
+                            <div class="nav-login">
+                            <li>
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Accounts/Login">Login</a>
                             </li>
-                            <li class="nav-item">
+                            <li>
+                                <a class="nav-link text-dark" asp-area="" >|</a>
+                            </li>
+                            <li>
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Accounts/Register">Register</a>
                             </li>
+                    </div>
                         }
                     </ul>
                 </div>

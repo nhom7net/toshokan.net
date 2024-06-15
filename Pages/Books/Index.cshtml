@@ -34,9 +34,6 @@
                 @Html.DisplayNameFor(model => model.Book[0].Genre)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Book[0].CopiesAvailable)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Book[0].PublishedDate)
             </th>
             <th></th>
@@ -55,15 +52,12 @@
                 @Html.DisplayFor(modelItem => item.Genre)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CopiesAvailable)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.PublishedDate)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    <a class="btn btn-outline-primary" asp-page="./Edit" asp-route-id="@item.Id">Edit</a>
+                    <a class="btn btn-outline-secondary" asp-page="./Details" asp-route-id="@item.Id">Details</a>
+                    <a class="btn btn-outline-warning" asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }

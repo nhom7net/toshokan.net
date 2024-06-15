@@ -32,6 +32,7 @@ body {
     padding: 15px;
     border-radius: 10px;
     border: solid 1px;
+    max-width:300px;
 }
 
 .card-image img {
@@ -69,8 +70,21 @@ body {
 }
 
 .img-small {
-    width: 200px;
-    height: 100%;
+    width: 20em;
+    height: auto;
+}
+
+.nav-login {
+    display:flex;
+    position: absolute;
+    right: 70px;
+    bottom:8px;
+    padding-right: .5rem;
+    padding-left: .5rem;
+}
+
+.bg-white {
+    background-color: lightgray !important;
 }
 
 .img-icon {
