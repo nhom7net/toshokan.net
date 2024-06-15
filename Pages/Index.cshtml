@@ -7,6 +7,15 @@
 
 <div class="container">
     <h2>Home Page</h2>
+    <form method="get">
+        <p>
+            <select asp-for="BookGenre" asp-items="Model.Genres">
+                <option value="">All</option>
+            </select>
+            Title: <input type="text" asp-for="SearchString" />
+            <input type="submit" value="Filter" />
+        </p>
+    </form>
     <div class="row">
         @foreach (var book in Model.Books)
         {
