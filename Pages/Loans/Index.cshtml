@@ -17,10 +17,10 @@
                 @Html.DisplayNameFor(model => model.Loan[0].LoanDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Loan[0].ReturnDate)
-            </th>
-            <th >
                 @Html.DisplayNameFor(model => model.Loan[0].Returned)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Loan[0].ReturnDate)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Loan[0].Book)
@@ -38,10 +38,19 @@
                 @Html.DisplayFor(modelItem => item.LoanDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ReturnDate)
+                @if (item.Returned)
+                {
+                    <img src="ok.png" alt="Returned" class="img-icon d-block mx-auto"/>
+                }
+                else
+                {
+                    <form asp-page-handler="BookReturn" asp-route-id="@item.LoanID" method="post">
+                        <button class="btn btn-primary">Return</button>
+                    </form>
+                }
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Returned)
+                @Html.DisplayFor(modelItem => item.ReturnDate)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Book.Title)

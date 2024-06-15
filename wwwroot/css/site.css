@@ -74,6 +74,7 @@ body {
     height: 100%;
 }
 
+
 .nav-login {
     display:flex;
     position: absolute;
@@ -86,3 +87,9 @@ body {
 .bg-white {
     background-color: darkgray !important;
     }
+
+.img-icon {
+    width: 1.4em;
+    height: 100%;
+    padding: .375rem 0;
+}

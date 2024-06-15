@@ -2,26 +2,37 @@
 @model IndexModel
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Browse Library";
 }
 
 <div class="container">
-    <h2>Home Page</h2>
+    <form method="get">
+        <label asp-for="BookGenre">Filter by Genre: </label>
+        <select asp-for="BookGenre" asp-items="Model.Genres">
+            <option value="">All</option>
+        </select>
+
+        <label asp-for="SearchString">Search by title:</label>
+        <input type="text" asp-for="SearchString"/>
+        <input type="submit" value="Filter"/>
+    </form>
     <div class="row">
         @foreach (var book in Model.Books)
         {
-            <div class="card">
-                <div class="card-image">
-                    <img src="@book.ImgURL" alt="@book.Title" class="img-fluid">
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">@book.Title</h5>
-                    <h6 class="card-author mb-2 text-muted">Author: @book.Author</h6>
-                    <p class="card-genre">Genre: @book.Genre</p>
-                    <p class="card-rent">Rental Price: @book.RentCost.ToString("C", new System.Globalization.CultureInfo("en-US"))</p>
-                </div>
-                <div class="card-footer">
-                    <button class="btn btn-success btn-block" onclick="rentBookConfirm('@book.Id')">Rent Book</button>
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="@book.ImgURL" alt="@book.Title" class="img-fluid">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">@book.Title</h5>
+                        <h6 class="card-author mb-2 text-muted">Author: @book.Author</h6>
+                        <p class="card-genre">Genre: @book.Genre</p>
+                        <p class="card-rent">Rental Price: @book.RentCost.ToString("C", new System.Globalization.CultureInfo("en-US"))</p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-success btn-block" onclick="rentBookConfirm('@book.Id')">Rent Book</button>
+                    </div>
                 </div>
             </div>
         }
