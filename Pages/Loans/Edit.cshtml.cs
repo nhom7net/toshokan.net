@@ -81,6 +81,8 @@ namespace toshokan.Pages.Loans
             
             dataUpdate.Book = await _context.Book.FindAsync(SelectedBook);
             dataUpdate.Member = await _context.Member.FindAsync(SelectedMember);
+            if (dataUpdate.Returned) dataUpdate.ReturnDate = DateTime.Now;
+            else dataUpdate.ReturnDate = null;
             
             await _context.SaveChangesAsync();
 
