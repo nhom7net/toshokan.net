@@ -22,17 +22,44 @@ namespace toshokan.Pages.Accounts
 
         public class InputModel
         {
+            [StringLength(49)]
             [Required(ErrorMessage = "Username is required.")]
+            [RegularExpression("^[a-zA-Z]*$", ErrorMessage = "Username must contain only letters.")]
             public string Username { get; set; }
 
+            [StringLength(15)]
             [Required(ErrorMessage = "Password is required.")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
+            [StringLength(15)]
             [Required(ErrorMessage = "Confirm Password is required.")]
             [DataType(DataType.Password)]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [StringLength(10)]
+            [Required(ErrorMessage = "Fistname is required.")]
+            [RegularExpression("^[a-zA-Z]*$", ErrorMessage = "Username must contain only letters.")]
+            public string Fistname { get; set; }
+
+            [StringLength(10)]
+            [Required(ErrorMessage = "LastName is required.")]
+            [RegularExpression("^[a-zA-Z]*$", ErrorMessage = "Username must contain only letters.")]
+            public string LastName { get; set; }
+
+            [Required(ErrorMessage = "Address is required.")]
+            public string Address { get; set; }
+
+            [StringLength(12, MinimumLength = 12, ErrorMessage = "Phone Number must be in the format XXX-XXX-XXXX.")]
+            [Required(ErrorMessage = "Phone Number is required.")]
+            [RegularExpression(@"\d{3}-\d{3}-\d{4}", ErrorMessage = "Phone Number must be in the format XXX-XXX-XXXX.")]
+            public string PhoneNumber { get; set; }
+
+            [Required(ErrorMessage = "Email is required.")]
+            [EmailAddress(ErrorMessage = "Invalid Email Address")]
+            public string Email { get; set; }
+
         }
 
         public IActionResult OnGet()
@@ -57,7 +84,13 @@ namespace toshokan.Pages.Accounts
             var member = new Member
             {
                 Username = Input.Username,
-                Password = Input.Password 
+                Password = Input.Password,
+                FirstName = Input.Fistname,
+                LastName = Input.LastName,
+                Address = Input.Address,
+                PhoneNumber = Input.PhoneNumber,
+                Email = Input.Email,
+                MembershipDate = DateTime.Now,
             };
 
             _context.Member.Add(member);
