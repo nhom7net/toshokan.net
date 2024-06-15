@@ -17,10 +17,10 @@ namespace toshokan.Models
         [FutureDate(ErrorMessage = "Expiration date must be in the future.")]
         public DateTime ExpirationDate { get; set; }
 
+        // NOTE: This is unused. Please use ExpirationDate for any sorting purposes.
         [StringLength(20, ErrorMessage = "Status cannot be longer than 20 characters.")]
         public string Status { get; set; }
-
-  
+        
         public Book Book { get; set; }
 
     
