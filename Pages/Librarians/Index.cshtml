@@ -10,6 +10,18 @@
 <p>
     <a asp-page="Create">Create New</a>
 </p>
+
+<form method="get">
+    <div>
+        <input type="text" name="searchString" value="@Model.SearchString" class="form-control mb-2" placeholder="Search...">
+        <select name="searchType" class="form-control mb-2">
+            <option value="FirstName" selected>First Name</option>
+            <option value="LastName">Last Name</option>
+        </select>
+        <button type="submit" class="btn btn-primary mb-2">Filter</button>
+    </div>
+</form>
+
 <table class="table">
     <thead>
         <tr>

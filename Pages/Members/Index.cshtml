@@ -10,6 +10,18 @@
 <p>
     <a asp-page="Create">Create New</a>
 </p>
+
+<form method="get">
+    <div class="form-group">
+        <input type="text" asp-for="SearchString" class="form-control" placeholder="Search by first name or last name" />
+        <select asp-for="SearchType" class="form-control">
+            <option value="FirstName">First Name</option>
+            <option value="LastName">Last Name</option>
+        </select>
+        <input type="submit" value="Search" class="btn btn-primary" />
+    </div>
+</form>
+
 <table class="table">
     <thead>
         <tr>

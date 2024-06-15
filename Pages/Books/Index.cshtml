@@ -11,14 +11,17 @@
     <a asp-page="Create">Create New</a>
 </p>
 
-<form>
-    <p>
-        <select asp-for="BookGenre" asp-items="Model.Genres">
-            <option value="">All</option>
+
+<form method="get">
+    <div>
+        <input type="text" name="searchString" value="@Model.SearchString" class="form-control" />
+        <select name="searchType" class="form-control">
+            <option value="Title">Title</option>
+            <option value="Author">Author</option>
+            <option value="Genre">Genre</option>
         </select>
-        Title: <input type="text" asp-for="SearchString" />
-        <input type="submit" value="Filter" />
-    </p>
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </div>
 </form>
 
 <table class="table">
@@ -40,26 +43,27 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Book) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Author)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Genre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PublishedDate)
-            </td>
-            <td>
+        @foreach (var item in Model.Book)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Genre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PublishedDate)
+                </td>
+                <td>
                     <a class="btn btn-outline-primary" asp-page="./Edit" asp-route-id="@item.Id">Edit</a>
                     <a class="btn btn-outline-secondary" asp-page="./Details" asp-route-id="@item.Id">Details</a>
                     <a class="btn btn-outline-warning" asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

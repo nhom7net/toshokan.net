@@ -13,20 +13,49 @@ namespace toshokan.Pages.Loans
 {
     public class IndexModel : PageModel
     {
-        private readonly toshokan.Data.toshokanContext _context;
+        private readonly toshokanContext _context;
 
-        public IndexModel(toshokan.Data.toshokanContext context)
+        public IndexModel(toshokanContext context)
         {
             _context = context;
         }
 
-        public IList<Loan> Loan { get;set; } = default!;
+        public IList<Loan> Loan { get; set; } = default!;
+
+        [BindProperty(SupportsGet = true)]
+        public string SearchMemberName { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public bool? SearchReturned { get; set; }
 
         public async Task OnGetAsync()
         {
-            Loan = await _context.Loan
+            IQueryable<Loan> loansQuery = _context.Loan
                 .Include(l => l.Book)
-                .Include(l => l.Member).ToListAsync();
+                .Include(l => l.Member);
+
+            if (!string.IsNullOrEmpty(SearchMemberName))
+            {
+                loansQuery = loansQuery.Where(l => l.Member.FirstName.Contains(SearchMemberName) ||
+                                                   l.Member.LastName.Contains(SearchMemberName));
+            }
+
+            if (SearchReturned.HasValue)
+            {
+                loansQuery = loansQuery.Where(l => l.Returned == SearchReturned.Value);
+            }
+
+            // Sắp xếp dữ liệu theo tên Member hoặc trạng thái trả sách
+            if (SearchReturned.HasValue)
+            {
+                loansQuery = loansQuery.OrderBy(l => l.Returned);
+            }
+            else
+            {
+                loansQuery = loansQuery.OrderBy(l => l.Member.FirstName).ThenBy(l => l.Member.LastName);
+            }
+
+            Loan = await loansQuery.ToListAsync();
         }
 
         public async Task<IActionResult> OnPostBookReturn(int? id)
@@ -39,10 +68,8 @@ namespace toshokan.Pages.Loans
             dataUpdate.ReturnDate = DateTime.Now;
 
             await _context.SaveChangesAsync();
-            
-            // We need to reload the page because
-            // Page() apparently did not pass existing data.
-            // I might not understand Page() enough through.
+
+            // Reload the page
             return Redirect(Request.GetDisplayUrl());
         }
     }

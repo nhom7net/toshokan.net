@@ -19,11 +19,46 @@ namespace toshokan.Pages.Members
             _context = context;
         }
 
-        public IList<Member> Member { get;set; } = default!;
+        public IList<Member> Member { get; set; } = default!;
+
+        [BindProperty(SupportsGet = true)]
+        public string SearchString { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string SearchType { get; set; }
 
         public async Task OnGetAsync()
         {
-            Member = await _context.Member.ToListAsync();
+            var members = from m in _context.Member select m;
+
+            if (!string.IsNullOrEmpty(SearchString))
+            {
+                if (SearchType == "FirstName")
+                {
+                    members = members.Where(s => s.FirstName.Contains(SearchString));
+                }
+                else if (SearchType == "LastName")
+                {
+                    members = members.Where(s => s.LastName.Contains(SearchString));
+                }
+            }
+
+            // Sort results based on search type
+            if (SearchType == "FirstName")
+            {
+                members = members.OrderBy(s => s.FirstName);
+            }
+            else if (SearchType == "LastName")
+            {
+                members = members.OrderBy(s => s.LastName);
+            }
+            else
+            {
+                // Default sorting if SearchType is not specified
+                members = members.OrderBy(s => s.FirstName).ThenBy(s => s.LastName);
+            }
+
+            Member = await members.ToListAsync();
         }
     }
 }

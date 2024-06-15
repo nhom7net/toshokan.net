@@ -19,15 +19,40 @@ namespace toshokan.Pages.Reservations
             _context = context;
         }
 
-        public IList<Reservation> Reservation { get;set; } = default!;
+        public IList<Reservation> Reservation { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string SearchString { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string SearchStatus { get; set; }
 
         public async Task OnGetAsync()
         {
-            Reservation = await _context.Reservation
+            IQueryable<Reservation> reservationQuery = _context.Reservation
                 .Include(r => r.Book)
-                .Include(r => r.Member)
-                .OrderByDescending(o => o.ExpirationDate)
-                .ToListAsync();
+                .Include(r => r.Member);
+
+            if (!string.IsNullOrEmpty(SearchString))
+            {
+                reservationQuery = reservationQuery.Where(r =>
+                    r.Member.FirstName.Contains(SearchString) ||
+                    r.Member.LastName.Contains(SearchString));
+            }
+
+            if (!string.IsNullOrEmpty(SearchStatus))
+            {
+                if (SearchStatus == "Pending")
+                {
+                    reservationQuery = reservationQuery.Where(r => r.ExpirationDate >= DateTime.Now);
+                }
+                else if (SearchStatus == "Expired")
+                {
+                    reservationQuery = reservationQuery.Where(r => r.ExpirationDate < DateTime.Now);
+                }
+            }
+
+            Reservation = await reservationQuery.OrderByDescending(r => r.ExpirationDate).ToListAsync();
         }
     }
 }
