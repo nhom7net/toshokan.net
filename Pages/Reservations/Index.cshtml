@@ -2,66 +2,59 @@
 @model toshokan.Pages.Reservations.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Reservations";
 }
 
-<h1>Index</h1>
+<h1>Reservations Index</h1>
 
 <p>
     <a asp-page="Create">Create New</a>
 </p>
+
+<form method="get">
+    <input type="text" name="searchString" value="@Model.SearchString" placeholder="Search...">
+    <select name="status">
+        <option value="">All</option>
+        <option value="Pending">Pending</option>
+        <option value="Expired">Expired</option>
+    </select>
+    <button type="submit">Search</button>
+</form>
+
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Reservation[0].ReservationDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Reservation[0].ExpirationDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Reservation[0].Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Reservation[0].Book)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Reservation[0].Member)
-            </th>
+            <th>@Html.DisplayNameFor(model => model.Reservation[0].ReservationDate)</th>
+            <th>@Html.DisplayNameFor(model => model.Reservation[0].ExpirationDate)</th>
+            <th>Status</th>
+            <th>@Html.DisplayNameFor(model => model.Reservation[0].Book.Title)</th>
+            <th>Member</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Reservation) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReservationDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ExpirationDate)
-            </td>
-            <td>
-                @if (item.ExpirationDate < DateTime.Now)
-                {
-                    @:Expired
-                }
-                else
-                {
-                    @:Pending
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Book.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Member.FirstName)
-                @Html.DisplayFor(modelItem => item.Member.LastName)
-            </td>
-            <td>
-                <a asp-page="./Details" asp-route-id="@item.ReservationID">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.ReservationID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Reservation)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.ReservationDate)</td>
+                <td>@Html.DisplayFor(modelItem => item.ExpirationDate)</td>
+                <td>
+                    @if (item.ExpirationDate < DateTime.Now)
+                    {
+                        <span class="text-danger">Expired</span>
+                    }
+                    else
+                    {
+                        <span class="text-success">Pending</span>
+                    }
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.Book.Title)</td>
+                <td>@Html.DisplayFor(modelItem => item.Member.FirstName) @Html.DisplayFor(modelItem => item.Member.LastName)</td>
+                <td>
+                    <a asp-page="./Details" asp-route-id="@item.ReservationID">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.ReservationID">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

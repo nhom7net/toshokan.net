@@ -19,13 +19,31 @@ namespace toshokan.Pages.Reservations
             _context = context;
         }
 
-        public IList<Reservation> Reservation { get;set; } = default!;
+        public IList<Reservation> Reservation { get; set; }
+        public string SearchString { get; set; }
+        public string Status { get; set; }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(string searchString, string status)
         {
-            Reservation = await _context.Reservation
+            IQueryable<Reservation> reservationQuery = _context.Reservation
                 .Include(r => r.Book)
-                .Include(r => r.Member).ToListAsync();
+                .Include(r => r.Member);
+
+            // Tìm kiếm theo Status
+            if (!string.IsNullOrEmpty(status))
+            {
+                reservationQuery = reservationQuery.Where(r => r.Status.Contains(status));
+            }
+
+            // Tìm kiếm theo SearchString (FirstName hoặc LastName của Member)
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                reservationQuery = reservationQuery.Where(r =>
+                    r.Member.FirstName.Contains(searchString) ||
+                    r.Member.LastName.Contains(searchString));
+            }
+
+            Reservation = await reservationQuery.ToListAsync();
         }
     }
 }

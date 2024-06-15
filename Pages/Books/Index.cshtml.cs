@@ -12,18 +12,41 @@ namespace toshokan.Pages.Books
 {
     public class IndexModel : PageModel
     {
-        private readonly toshokan.Data.toshokanContext _context;
+        private readonly toshokanContext _context;
 
-        public IndexModel(toshokan.Data.toshokanContext context)
+        public IndexModel(toshokanContext context)
         {
             _context = context;
         }
 
-        public IList<Book> Book { get;set; } = default!;
+        public IList<Book> Book { get; set; }
+        public string CurrentFilter { get; set; }
+        public string SearchOption { get; set; }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(string searchOption, string searchString)
         {
-            Book = await _context.Book.ToListAsync();
+            SearchOption = searchOption;
+            CurrentFilter = searchString;
+
+            IQueryable<Book> booksIQ = from b in _context.Book
+                                       select b;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                switch (searchOption)
+                {
+                    case "Title":
+                        booksIQ = booksIQ.Where(b => b.Title.Contains(searchString));
+                        break;
+                    case "Author":
+                        booksIQ = booksIQ.Where(b => b.Author.Contains(searchString));
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            Book = await booksIQ.AsNoTracking().ToListAsync();
         }
     }
 }
