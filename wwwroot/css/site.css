@@ -72,3 +72,9 @@ body {
     width: 200px;
     height: 100%;
 }
+
+.img-icon {
+    width: 1.4em;
+    height: 100%;
+    padding: .375rem 0;
+}
