@@ -25,7 +25,9 @@ namespace toshokan.Pages.Reservations
         {
             Reservation = await _context.Reservation
                 .Include(r => r.Book)
-                .Include(r => r.Member).ToListAsync();
+                .Include(r => r.Member)
+                .OrderByDescending(o => o.ExpirationDate)
+                .ToListAsync();
         }
     }
 }
