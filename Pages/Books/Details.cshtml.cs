@@ -82,7 +82,7 @@ namespace toshokan.Pages.Books
             _context.Reservation.Add(reservation);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage(new { id = bookId });
+            return RedirectToPage("/Accounts/Pendings/Reservations", new { newrent = true });
         }
     }
 }

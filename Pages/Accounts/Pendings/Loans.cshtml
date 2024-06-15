@@ -1,0 +1,52 @@
+@page
+@model toshokan.Pages.Accounts.Pendings.Loans
+
+@{
+    ViewData["Title"] = "Loans";
+}
+
+<h1>Your rented books</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Loan[0].LoanDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Loan[0].ReturnDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Loan[0].Book)
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.Loan) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.LoanDate)
+            </td>
+            <td>
+                @if (item.Returned)
+                {
+                    <img src="~/ok.png" alt="Returned: " class="img-icon"/> @Html.DisplayFor(modelItem => item.ReturnDate)
+                }
+                else
+                {
+                    @:Currently renting
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Book.Title)
+            </td>
+            <td>
+                <a class="btn btn-primary" asp-page="/Books/Details" asp-route-id="@item.Book.Id">View Book</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<p>Please bring the renting book to the library for return.</p>

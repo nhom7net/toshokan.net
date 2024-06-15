@@ -39,6 +39,15 @@
                                     <a class="nav-link text-dark" asp-area="" asp-page="/Reservations/Index">Reservations</a>
                                 </li>
                             }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/Accounts/Pendings/Loans">Loans</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/Accounts/Pendings/Reservations">Reservations</a>
+                                </li>
+                            }
                             <li class="nav-login">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Accounts/Logout">Logout</a>
                             </li>
