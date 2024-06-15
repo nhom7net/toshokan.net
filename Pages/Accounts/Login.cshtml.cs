@@ -46,6 +46,7 @@ namespace toshokan.Pages.Accounts
             {
                 HttpContext.Session.SetString("isLoggedIn", "true");
                 HttpContext.Session.SetString("Username", member.Username);
+                HttpContext.Session.SetInt32("UserID", member.MemberID);
                 return RedirectToPage("/Index");
             }
         }

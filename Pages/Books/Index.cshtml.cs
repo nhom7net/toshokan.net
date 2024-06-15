@@ -23,12 +23,12 @@ namespace toshokan.Pages.Books
         public IList<Book> Book { get;set; } = default!;
 
         [BindProperty(SupportsGet = true)]
-        public string? SearchString { get; set; }
+        public string SearchString { get; set; }
 
-        public SelectList? Genres { get; set; }
+        public SelectList Genres { get; set; }
 
         [BindProperty(SupportsGet = true)]
-        public string? BookGenre { get; set; }
+        public string BookGenre { get; set; }
 
         public async Task OnGetAsync()
         {

@@ -1,0 +1,61 @@
+@page
+@model toshokan.Pages.Accounts.Pendings.Reservations
+
+@{
+    ViewData["Title"] = "Reservations";
+}
+
+<h1>Your pending reservation</h1>
+@if ((bool) ViewData["newrent"]!)
+{
+<div class="alert alert-info">
+    <p>Book reserved successfully!</p>
+    <span>Remember to show your reservation ID to the librarian to start renting.</span>
+</div>
+}
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Reservation[0].ReservationID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Reservation[0].ReservationDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Reservation[0].ExpirationDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Reservation[0].Book)
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.Reservation) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReservationID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReservationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExpirationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Book.Title)
+            </td>
+            <td>
+                <a class="btn btn-primary" asp-page="/Books/Details" asp-route-id="@item.Book.Id">View Book</a>
+                <form method="post" asp-page-handler="CancelRent">
+                    <input type="hidden" name="id" value="@item.ReservationID" />
+                    <button type="submit" class="btn btn-danger">Cancel Reservation</button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<p>To start renting, please show your reservation ID of the book you are about to renting to the librarian.</p>
