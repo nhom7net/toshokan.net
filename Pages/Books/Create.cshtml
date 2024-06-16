@@ -15,32 +15,32 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Book.Title" class="control-label"></label>
-                <input asp-for="Book.Title" class="form-control" />
+                <input asp-for="Book.Title" class="form-control" placeholder="Enter book title" required minlength="3" maxlength="200" />
                 <span asp-validation-for="Book.Title" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Book.Author" class="control-label"></label>
-                <input asp-for="Book.Author" class="form-control" />
+                <input asp-for="Book.Author" class="form-control" placeholder="Enter author name" required minlength="3" maxlength="60" />
                 <span asp-validation-for="Book.Author" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Book.Genre" class="control-label"></label>
-                <input asp-for="Book.Genre" class="form-control" />
+                <input asp-for="Book.Genre" class="form-control" placeholder="Enter genre" required pattern="[A-Za-z\s]*" maxlength="30" />
                 <span asp-validation-for="Book.Genre" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Book.PublishedDate" class="control-label"></label>
-                <input asp-for="Book.PublishedDate" class="form-control" />
+                <input asp-for="Book.PublishedDate" class="form-control" placeholder="Enter publication date" required type="date" />
                 <span asp-validation-for="Book.PublishedDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Book.ImgURL" class="control-label"></label>
-                <input asp-for="Book.ImgURL" class="form-control" />
+                <input asp-for="Book.ImgURL" class="form-control" placeholder="Enter image URL" />
                 <span asp-validation-for="Book.ImgURL" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Book.RentCost" class="control-label"></label>
-                <input asp-for="Book.RentCost" class="form-control" />
+                <input asp-for="Book.RentCost" class="form-control" placeholder="Enter rent cost" required type="number" step="0.01" min="1" max="100" />
                 <span asp-validation-for="Book.RentCost" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -55,5 +55,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
