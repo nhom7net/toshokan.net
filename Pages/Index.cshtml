@@ -45,3 +45,28 @@
         }
     </div>
 </div>
+
+<div class="pagination">
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            @if (Model.Books.HasPreviousPage)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-page="./Index" asp-route-pageIndex="@(Model.Books.PageIndex - 1)" asp-route-currentFilter="@Model.CurrentFilter">Previous</a>
+                </li>
+            }
+            @for (var i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(Model.CurrentPage == i ? "active" : "")">
+                    <a class="page-link" asp-page="./Index" asp-route-pageIndex="@i" asp-route-currentFilter="@Model.CurrentFilter">@i</a>
+                </li>
+            }
+            @if (Model.Books.HasNextPage)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-page="./Index" asp-route-pageIndex="@(Model.Books.PageIndex + 1)" asp-route-currentFilter="@Model.CurrentFilter">Next</a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>
