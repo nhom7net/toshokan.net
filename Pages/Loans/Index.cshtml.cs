@@ -16,7 +16,7 @@ namespace toshokan.Pages.Loans
         private readonly toshokanContext _context;
 
         public IndexModel(toshokanContext context)
-        { 
+        {
             _context = context;
         }
 
@@ -36,19 +36,14 @@ namespace toshokan.Pages.Loans
 
             if (!string.IsNullOrEmpty(SearchMemberName))
             {
-                loansQuery = loansQuery.Where(l => l.Member.FirstName.Contains(SearchMemberName) ||
-                                                   l.Member.LastName.Contains(SearchMemberName));
+                var searchMemberName = SearchMemberName.ToLower().Trim();
+                loansQuery = loansQuery.Where(l => (l.Member.FirstName + " " + l.Member.LastName).ToLower().Contains(searchMemberName));
             }
 
             if (SearchReturned.HasValue)
             {
-                loansQuery = loansQuery.Where(l => l.Returned == SearchReturned.Value);
-            }
-
-            // Sắp xếp dữ liệu theo tên Member hoặc trạng thái trả sách
-            if (SearchReturned.HasValue)
-            {
-                loansQuery = loansQuery.OrderBy(l => l.Returned);
+                loansQuery = loansQuery.Where(l => l.Returned == SearchReturned.Value)
+                                       .OrderBy(l => l.Returned);
             }
             else
             {
@@ -63,6 +58,11 @@ namespace toshokan.Pages.Loans
             if (!ModelState.IsValid) return Page();
 
             var dataUpdate = await _context.Loan.FirstOrDefaultAsync(m => id == m.LoanID);
+
+            if (dataUpdate == null)
+            {
+                return NotFound();
+            }
 
             dataUpdate.Returned = true;
             dataUpdate.ReturnDate = DateTime.Now;

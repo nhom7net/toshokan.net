@@ -11,17 +11,19 @@
     <a asp-page="Create">Create New</a>
 </p>
 <form method="get">
-    <div class="form-group">
+    <div class="col-md-3">
         <input type="text" asp-for="SearchMemberName" class="form-control" placeholder="Search Member..." />
     </div>
-    <div class="form-group">
+    <div class="col-md-3">
         <select asp-for="SearchReturned" class="form-control">
             <option value="">All</option>
             <option value="true">Returned</option>
             <option value="false">Not Returned</option>
         </select>
     </div>
-    <input type="submit" value="Filter" class="btn btn-primary" />
+    <div class="col-md-2">
+        <input type="submit" value="Filter" class="btn btn-primary" />
+    </div>
 </form>
 <table class="table">
     <thead>

@@ -11,7 +11,7 @@ using toshokan.Models;
 namespace toshokan.Pages.Books
 {
     public class IndexModel : PageModel
-    { 
+    {
         private readonly toshokanContext _context;
 
         public IndexModel(toshokanContext context)
@@ -33,19 +33,21 @@ namespace toshokan.Pages.Books
         {
             IQueryable<Book> booksQuery = _context.Book.AsQueryable();
 
-            // Filter by search string and search type
+            // Filter by search string and search type without case sensitivity
             if (!string.IsNullOrEmpty(SearchString))
             {
+                string lowerCaseSearchString = SearchString.ToLower();
+
                 switch (SearchType)
                 {
                     case "Title":
-                        booksQuery = booksQuery.Where(b => b.Title.Contains(SearchString));
+                        booksQuery = booksQuery.Where(b => b.Title.ToLower().Contains(lowerCaseSearchString));
                         break;
                     case "Author":
-                        booksQuery = booksQuery.Where(b => b.Author.Contains(SearchString));
+                        booksQuery = booksQuery.Where(b => b.Author.ToLower().Contains(lowerCaseSearchString));
                         break;
                     case "Genre":
-                        booksQuery = booksQuery.Where(b => b.Genre.Contains(SearchString));
+                        booksQuery = booksQuery.Where(b => b.Genre.ToLower().Contains(lowerCaseSearchString));
                         break;
                     default:
                         break;

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,7 @@ using toshokan.Models;
 namespace toshokan.Pages.Librarians
 {
     public class IndexModel : PageModel
-    { 
+    {
         private readonly toshokanContext _context;
 
         public IndexModel(toshokanContext context)
@@ -33,14 +34,16 @@ namespace toshokan.Pages.Librarians
             // Apply search filter based on SearchType
             if (!string.IsNullOrEmpty(SearchString) && !string.IsNullOrEmpty(SearchType))
             {
+                string searchStringLower = SearchString.ToLower(); // Chuyển đổi sang chữ thường
+
                 if (SearchType == "FirstName")
                 {
-                    librarianQuery = librarianQuery.Where(l => l.FirstName.Contains(SearchString));
+                    librarianQuery = librarianQuery.Where(l => l.FirstName.ToLower().Contains(searchStringLower));
                     librarianQuery = librarianQuery.OrderBy(l => l.FirstName); // Sắp xếp theo First name nếu tìm theo First name
                 }
                 else if (SearchType == "LastName")
                 {
-                    librarianQuery = librarianQuery.Where(l => l.LastName.Contains(SearchString));
+                    librarianQuery = librarianQuery.Where(l => l.LastName.ToLower().Contains(searchStringLower));
                     librarianQuery = librarianQuery.OrderBy(l => l.LastName); // Sắp xếp theo Last name nếu tìm theo Last name
                 }
             }

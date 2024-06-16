@@ -18,7 +18,7 @@ namespace toshokan.Pages.Reservations
         {
             _context = context;
         }
-         
+
         public IList<Reservation> Reservation { get; set; }
 
         [BindProperty(SupportsGet = true)]
@@ -26,6 +26,9 @@ namespace toshokan.Pages.Reservations
 
         [BindProperty(SupportsGet = true)]
         public string SearchStatus { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string SearchBook { get; set; }
 
         public async Task OnGetAsync()
         {
@@ -35,9 +38,10 @@ namespace toshokan.Pages.Reservations
 
             if (!string.IsNullOrEmpty(SearchString))
             {
+                string searchStringLower = SearchString.ToLower();
                 reservationQuery = reservationQuery.Where(r =>
-                    r.Member.FirstName.Contains(SearchString) ||
-                    r.Member.LastName.Contains(SearchString));
+                    r.Member.FirstName.ToLower().Contains(searchStringLower) ||
+                    r.Member.LastName.ToLower().Contains(searchStringLower));
             }
 
             if (!string.IsNullOrEmpty(SearchStatus))
@@ -52,7 +56,15 @@ namespace toshokan.Pages.Reservations
                 }
             }
 
-            Reservation = await reservationQuery.OrderByDescending(r => r.ExpirationDate).ToListAsync();
+            if (!string.IsNullOrEmpty(SearchBook))
+            {
+                string searchBookLower = SearchBook.ToLower();
+                reservationQuery = reservationQuery.Where(r => r.Book.Title.ToLower().Contains(searchBookLower));
+            }
+
+            Reservation = await reservationQuery
+                .OrderBy(r => r.Book.Title)
+                .ToListAsync();
         }
     }
 }
