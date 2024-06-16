@@ -8,17 +8,23 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="Create" class="btn btn-success">Create New</a>
 </p>
 
 <form method="get">
-    <div>
-        <input type="text" name="searchString" value="@Model.SearchString" class="form-control mb-2" placeholder="Search...">
-        <select name="searchType" class="form-control mb-2">
-            <option value="FirstName" selected>First Name</option>
-            <option value="LastName">Last Name</option>
-        </select>
-        <button type="submit" class="btn btn-primary mb-2">Filter</button>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <input type="text" name="searchString" value="@Model.SearchString" class="form-control mb-2" placeholder="Search...">
+        </div>
+        <div class="col-md-3">
+            <select name="searchType" class="form-control mb-2">
+                <option value="FirstName" selected>First Name</option>
+                <option value="LastName">Last Name</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
     </div>
 </form>
 
