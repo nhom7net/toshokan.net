@@ -33,18 +33,18 @@ namespace toshokan.Pages.Accounts
             public string Password { get; set; }
 
             [StringLength(15)]
-            [Required(ErrorMessage = "Confirm Password is required.")]
+            [Required(ErrorMessage = "Please reenter your password.")]
             [DataType(DataType.Password)]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
             [StringLength(10)]
-            [Required(ErrorMessage = "Fistname is required.")]
+            [Required(ErrorMessage = "First name is required.")]
             [RegularExpression("^[a-zA-Z]*$", ErrorMessage = "Username must contain only letters.")]
-            public string Fistname { get; set; }
+            public string Firstname { get; set; }
 
             [StringLength(10)]
-            [Required(ErrorMessage = "LastName is required.")]
+            [Required(ErrorMessage = "Last Name is required.")]
             [RegularExpression("^[a-zA-Z]*$", ErrorMessage = "Username must contain only letters.")]
             public string LastName { get; set; }
 
@@ -85,7 +85,7 @@ namespace toshokan.Pages.Accounts
             {
                 Username = Input.Username,
                 Password = Input.Password,
-                FirstName = Input.Fistname,
+                FirstName = Input.Firstname,
                 LastName = Input.LastName,
                 Address = Input.Address,
                 PhoneNumber = Input.PhoneNumber,
