@@ -11,7 +11,7 @@ using toshokan.Data;
 namespace toshokan.Migrations
 {
     [DbContext(typeof(toshokanContext))]
-    [Migration("20240613081200_InitialCreate")]
+    [Migration("20240616140011_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -30,9 +30,6 @@ namespace toshokan.Migrations
                         .IsRequired()
                         .HasMaxLength(60)
                         .HasColumnType("TEXT");
-
-                    b.Property<int>("CopiesAvailable")
-                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Genre")
                         .IsRequired()
@@ -71,12 +68,21 @@ namespace toshokan.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("FirstName")
+                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("LastName")
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Password")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PhoneNumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Username")
+                        .HasMaxLength(20)
                         .HasColumnType("TEXT");
 
                     b.HasKey("LibrarianID");
@@ -135,7 +141,15 @@ namespace toshokan.Migrations
                     b.Property<DateTime>("MembershipDate")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Password")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("PhoneNumber")
+                        .HasMaxLength(15)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Username")
+                        .HasMaxLength(30)
                         .HasColumnType("TEXT");
 
                     b.HasKey("MemberID");
@@ -162,6 +176,7 @@ namespace toshokan.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Status")
+                        .HasMaxLength(20)
                         .HasColumnType("TEXT");
 
                     b.HasKey("ReservationID");

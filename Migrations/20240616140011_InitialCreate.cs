@@ -20,7 +20,6 @@ namespace toshokan.Migrations
                     Title = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
                     Author = table.Column<string>(type: "TEXT", maxLength: 60, nullable: false),
                     Genre = table.Column<string>(type: "TEXT", maxLength: 30, nullable: false),
-                    CopiesAvailable = table.Column<int>(type: "INTEGER", nullable: false),
                     PublishedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     ImgURL = table.Column<string>(type: "TEXT", nullable: true),
                     RentCost = table.Column<decimal>(type: "decimal(18, 2)", nullable: false)
@@ -36,11 +35,13 @@ namespace toshokan.Migrations
                 {
                     LibrarianID = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    FirstName = table.Column<string>(type: "TEXT", nullable: true),
-                    LastName = table.Column<string>(type: "TEXT", nullable: true),
+                    FirstName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
+                    LastName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
                     PhoneNumber = table.Column<string>(type: "TEXT", nullable: true),
                     Email = table.Column<string>(type: "TEXT", nullable: true),
-                    EmploymentDate = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    EmploymentDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Username = table.Column<string>(type: "TEXT", maxLength: 20, nullable: true),
+                    Password = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -56,9 +57,11 @@ namespace toshokan.Migrations
                     FirstName = table.Column<string>(type: "TEXT", nullable: true),
                     LastName = table.Column<string>(type: "TEXT", nullable: true),
                     Address = table.Column<string>(type: "TEXT", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "TEXT", maxLength: 15, nullable: true),
                     Email = table.Column<string>(type: "TEXT", nullable: true),
-                    MembershipDate = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    MembershipDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Username = table.Column<string>(type: "TEXT", maxLength: 30, nullable: true),
+                    Password = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -100,7 +103,7 @@ namespace toshokan.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     ReservationDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     ExpirationDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Status = table.Column<string>(type: "TEXT", nullable: true),
+                    Status = table.Column<string>(type: "TEXT", maxLength: 20, nullable: true),
                     BookId = table.Column<int>(type: "INTEGER", nullable: true),
                     MemberID = table.Column<int>(type: "INTEGER", nullable: true)
                 },
