@@ -11,42 +11,48 @@
 <h4>Loan</h4>
 <hr />
 
-@if ((bool) ViewData["newrent"]!)
+@if ((bool)ViewData["newrent"]!)
 {
     <div class="alert alert-info">
         <p>Renting started for @Model.Loan.Member.FirstName @Model.Loan.Member.LastName successfully!</p>
         <span>Make sure to change return date!</span>
     </div>
 }
+
 <div class="row">
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Loan.LoanID" />
+
             <div class="form-group">
                 <label asp-for="SelectedBook" class="control-label"></label>
-                <select asp-for="SelectedBook" class="form-control" asp-items="@Model.BookList">
+                <select asp-for="SelectedBook" class="form-control" asp-items="@Model.BookList" required>
                     <option value="">-- Select a Book --</option>
                 </select>
                 <span asp-validation-for="SelectedBook" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="SelectedMember" class="control-label"></label>
-                <select asp-for="SelectedMember" class="form-control" asp-items="@Model.MemberList">
+                <select asp-for="SelectedMember" class="form-control" asp-items="@Model.MemberList" required>
                     <option value="">-- Select member --</option>
                 </select>
                 <span asp-validation-for="SelectedMember" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Loan.LoanDate" class="control-label"></label>
-                <input asp-for="Loan.LoanDate" class="form-control" />
+                <input asp-for="Loan.LoanDate" class="form-control" type="date" required />
                 <span asp-validation-for="Loan.LoanDate" class="text-danger"></span>
             </div>
+
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="Loan.Returned" /> @Html.DisplayNameFor(model => model.Loan.Returned)
                 </label>
             </div>
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
@@ -59,5 +65,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
