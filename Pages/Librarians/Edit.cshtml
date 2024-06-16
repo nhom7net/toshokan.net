@@ -14,29 +14,34 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Librarian.LibrarianID" />
+
             <div class="form-group">
                 <label asp-for="Librarian.FirstName" class="control-label"></label>
-                <input asp-for="Librarian.FirstName" class="form-control" />
+                <input asp-for="Librarian.FirstName" class="form-control" required maxlength="50" />
                 <span asp-validation-for="Librarian.FirstName" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Librarian.LastName" class="control-label"></label>
-                <input asp-for="Librarian.LastName" class="form-control" />
+                <input asp-for="Librarian.LastName" class="form-control" required maxlength="50" />
                 <span asp-validation-for="Librarian.LastName" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Librarian.EmploymentDate" class="control-label"></label>
-                <input asp-for="Librarian.EmploymentDate" class="form-control" />
+                <input asp-for="Librarian.EmploymentDate" class="form-control" type="date" required />
                 <span asp-validation-for="Librarian.EmploymentDate" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Librarian.PhoneNumber" class="control-label"></label>
-                <input asp-for="Librarian.PhoneNumber" class="form-control" />
+                <input asp-for="Librarian.PhoneNumber" class="form-control" required />
                 <span asp-validation-for="Librarian.PhoneNumber" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Librarian.Email" class="control-label"></label>
-                <input asp-for="Librarian.Email" class="form-control" />
+                <input asp-for="Librarian.Email" class="form-control" type="email" required />
                 <span asp-validation-for="Librarian.Email" class="text-danger"></span>
             </div>
             <hr />
@@ -62,5 +67,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
