@@ -12,18 +12,49 @@ namespace toshokan.Pages.Librarians
 {
     public class IndexModel : PageModel
     {
-        private readonly toshokan.Data.toshokanContext _context;
+        private readonly toshokanContext _context;
 
-        public IndexModel(toshokan.Data.toshokanContext context)
+        public IndexModel(toshokanContext context)
         {
             _context = context;
         }
 
-        public IList<Librarian> Librarian { get;set; } = default!;
+        public IList<Librarian> Librarian { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string SearchString { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string SearchType { get; set; }
 
         public async Task OnGetAsync()
         {
-            Librarian = await _context.Librarian.ToListAsync();
+            IQueryable<Librarian> librarianQuery = _context.Librarian.AsQueryable();
+
+            // Apply search filter based on SearchType
+            if (!string.IsNullOrEmpty(SearchString) && !string.IsNullOrEmpty(SearchType))
+            {
+                string searchStringLower = SearchString.ToLower(); // Chuyển đổi sang chữ thường
+
+                if (SearchType == "FirstName")
+                {
+                    librarianQuery = librarianQuery.Where(l => l.FirstName.ToLower().Contains(searchStringLower));
+                    librarianQuery = librarianQuery.OrderBy(l => l.FirstName); // Sắp xếp theo First name nếu tìm theo First name
+                }
+                else if (SearchType == "LastName")
+                {
+                    librarianQuery = librarianQuery.Where(l => l.LastName.ToLower().Contains(searchStringLower));
+                    librarianQuery = librarianQuery.OrderBy(l => l.LastName); // Sắp xếp theo Last name nếu tìm theo Last name
+                }
+            }
+            else
+            {
+                // Mặc định sắp xếp theo Last name nếu không có tìm kiếm
+                librarianQuery = librarianQuery.OrderBy(l => l.LastName);
+            }
+
+            // Execute the query and store results in Librarian
+            Librarian = await librarianQuery.ToListAsync();
         }
     }
 }

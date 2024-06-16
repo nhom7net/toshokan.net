@@ -1,11 +1,24 @@
-﻿@page
+@page
 @model toshokan.Pages.Members.IndexModel
 
 @{
     ViewData["Title"] = "Index";
 }
 
+
 <h1>All members</h1>
+
+<form method="get">
+    <div class="form-group row">
+        <div class="col-md-3">
+            <input type="text" asp-for="SearchString" class="form-control" placeholder="Search by first name or last name" />
+        </div>
+        <div class="col-md-2">
+            <input type="submit" value="Search" class="btn btn-primary" />
+        </div>
+    </div>
+</form>
+
 <table class="table">
     <thead>
         <tr>
