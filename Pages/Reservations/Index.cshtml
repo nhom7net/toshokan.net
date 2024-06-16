@@ -5,11 +5,33 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Reservations</h1>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="Create" class="btn btn-success">Create New</a>
 </p>
+
+<form method="get">
+    <div class="form-group row">
+        <div class="col-md-3">
+            <input type="text" asp-for="SearchString" class="form-control" placeholder="Search Member..." />
+        </div>
+        <div class="col-md-3">
+            <input type="text" asp-for="SearchBook" class="form-control" placeholder="Search Book..." />
+        </div>
+        <div class="col-md-3">
+            <select asp-for="SearchStatus" class="form-control">
+                <option value="">All</option>
+                <option value="Pending">Pending</option>
+                <option value="Expired">Expired</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </div>
+</form>
+
 <table class="table">
     <thead>
         <tr>
@@ -20,48 +42,50 @@
                 @Html.DisplayNameFor(model => model.Reservation[0].ExpirationDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Reservation[0].Status)
+                Status
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Reservation[0].Book)
+                @Html.DisplayNameFor(model => model.Reservation[0].Book.Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Reservation[0].Member)
+                @Html.DisplayNameFor(model => model.Reservation[0].Member.FirstName)
+                @Html.DisplayNameFor(model => model.Reservation[0].Member.LastName)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Reservation) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReservationDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ExpirationDate)
-            </td>
-            <td>
-                @if (item.ExpirationDate < DateTime.Now)
-                {
-                    @:Expired
-                }
-                else
-                {
-                    @:Pending
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Book.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Member.FirstName)
-                @Html.DisplayFor(modelItem => item.Member.LastName)
-            </td>
-            <td>
-                    <a class="btn btn-outline-secondary" asp-page="./Details" asp-route-id="@item.ReservationID">Details</a> 
+        @foreach (var item in Model.Reservation)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReservationDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExpirationDate)
+                </td>
+                <td>
+                    @if (item.ExpirationDate < DateTime.Now)
+                    {
+                        @:Expired
+                    }
+                    else
+                    {
+                        @:Pending
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Member.FirstName)
+                    @Html.DisplayFor(modelItem => item.Member.LastName)
+                </td>
+                <td>
+                    <a class="btn btn-outline-secondary" asp-page="./Details" asp-route-id="@item.ReservationID">Details</a>
                     <a class="btn btn-outline-warning" asp-page="./Delete" asp-route-id="@item.ReservationID">Delete</a>
-            </td>
-        </tr>
-}
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

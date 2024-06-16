@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -13,43 +12,54 @@ namespace toshokan.Pages.Books
 {
     public class IndexModel : PageModel
     {
-        private readonly toshokan.Data.toshokanContext _context;
+        private readonly toshokanContext _context;
 
-        public IndexModel(toshokan.Data.toshokanContext context)
+        public IndexModel(toshokanContext context)
         {
             _context = context;
         }
 
-        public IList<Book> Book { get;set; } = default!;
+        public IList<Book> Book { get; set; }
 
         [BindProperty(SupportsGet = true)]
         public string SearchString { get; set; }
 
-        public SelectList Genres { get; set; }
-
         [BindProperty(SupportsGet = true)]
-        public string BookGenre { get; set; }
+        public string SearchType { get; set; } = "Title"; // Default search type is Title
+
+        public SelectList Genres { get; set; }
 
         public async Task OnGetAsync()
         {
-            IQueryable<string> genreQuery = from m in _context.Book
-                                            orderby m.Genre
-                                            select m.Genre;
+            IQueryable<Book> booksQuery = _context.Book.AsQueryable();
 
-            var books = from m in _context.Book
-                        select m;
-
+            // Filter by search string and search type without case sensitivity
             if (!string.IsNullOrEmpty(SearchString))
             {
-                books = books.Where(s => s.Title.Contains(SearchString));
+                string lowerCaseSearchString = SearchString.ToLower();
+
+                switch (SearchType)
+                {
+                    case "Title":
+                        booksQuery = booksQuery.Where(b => b.Title.ToLower().Contains(lowerCaseSearchString));
+                        break;
+                    case "Author":
+                        booksQuery = booksQuery.Where(b => b.Author.ToLower().Contains(lowerCaseSearchString));
+                        break;
+                    case "Genre":
+                        booksQuery = booksQuery.Where(b => b.Genre.ToLower().Contains(lowerCaseSearchString));
+                        break;
+                    default:
+                        break;
+                }
             }
 
-            if (!string.IsNullOrEmpty(BookGenre))
-            {
-                books = books.Where(x => x.Genre.Contains(BookGenre));
-            }
-            Genres = new SelectList(await genreQuery.Distinct().ToListAsync());
-            Book = await books.ToListAsync();
+            // Load genres for dropdown
+            IQueryable<string> genreQuery = _context.Book.OrderBy(b => b.Genre).Select(b => b.Genre).Distinct();
+            Genres = new SelectList(await genreQuery.ToListAsync());
+
+            // Execute the query and store results in Book
+            Book = await booksQuery.ToListAsync();
         }
     }
 }
