@@ -9,10 +9,10 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
+    <header class="sticky-top">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">Toshokan Library</a>
+                <a class="navbar-brand fw-bold" asp-area="" asp-page="/Index">Toshokan Library</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -48,38 +48,53 @@
                                     <a class="nav-link text-dark" asp-area="" asp-page="/Accounts/Pendings/Reservations">Reservations</a>
                                 </li>
                             }
+                            
                             <li class="nav-login">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Accounts/Logout">Logout</a>
+                                @if (Context.Session.GetString("userRole") != "Admin")
+                                {
+                                    <a class="btn btn-secondary mx-3" asp-area="" asp-page="/Accounts/EditInfo">Edit Profile</a>
+                                }
+                                <a class="btn btn-danger" asp-area="" asp-page="/Accounts/Logout">Logout</a>
                             </li>
                         }
                         else
                         {
                             <div class="nav-login">
-                            <li>
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Accounts/Login">Login</a>
-                            </li>
-                            <li>
-                                <a class="nav-link text-dark" asp-area="" >|</a>
-                            </li>
-                            <li>
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Accounts/Register">Register</a>
-                            </li>
-                    </div>
+                                <li>
+                                    <a class="btn btn-primary" asp-area="" asp-page="/Accounts/Login">Member Login</a>
+                                </li>
+                            </div>
                         }
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - Toshokan Library - Nhom9NET
+    <footer class="border-top footer text-muted position-fixed bottom-0 w-100 bg-light">
+        <div class="container d-flex justify-content-between">
+            <span>&copy; 2024 - Toshokan Library - Nhom9NET</span>
+            @if (Context.Session.GetString("isLoggedIn") == "true")
+            {
+                @if (Context.Session.GetString("userRole") == "Admin")
+                {
+                    @: Manage Mode enabled
+                }
+                else
+                {
+                    <div></div>
+                }
+            }
+            else
+            {
+                <a class="text-muted" asp-area="" asp-page="/Accounts/AdminLogin">Login to Management Portal</a>
+            }
         </div>
     </footer>
 

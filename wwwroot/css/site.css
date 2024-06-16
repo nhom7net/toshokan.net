@@ -92,3 +92,11 @@ body {
     height: 100%;
     padding: .375rem 0;
 }
+
+.nav-item {
+    transition: background-color 0.42s;    
+}
+
+.nav-item:hover {
+    background: whitesmoke;
+}
