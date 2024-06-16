@@ -26,6 +26,9 @@ namespace toshokan.Pages.Loans
         public string SearchMemberName { get; set; }
 
         [BindProperty(SupportsGet = true)]
+        public string SearchBookTitle { get; set; }
+
+        [BindProperty(SupportsGet = true)]
         public bool? SearchReturned { get; set; }
 
         public async Task OnGetAsync()
@@ -40,15 +43,18 @@ namespace toshokan.Pages.Loans
                 loansQuery = loansQuery.Where(l => (l.Member.FirstName + " " + l.Member.LastName).ToLower().Contains(searchMemberName));
             }
 
+            if (!string.IsNullOrEmpty(SearchBookTitle))
+            {
+                var searchBookTitle = SearchBookTitle.ToLower().Trim();
+                loansQuery = loansQuery.Where(l => l.Book.Title.ToLower().Contains(searchBookTitle));
+            }
+
             if (SearchReturned.HasValue)
             {
-                loansQuery = loansQuery.Where(l => l.Returned == SearchReturned.Value)
-                                       .OrderBy(l => l.Returned);
+                loansQuery = loansQuery.Where(l => l.Returned == SearchReturned.Value);
             }
-            else
-            {
-                loansQuery = loansQuery.OrderBy(l => l.Member.FirstName).ThenBy(l => l.Member.LastName);
-            }
+
+            loansQuery = loansQuery.OrderBy(l => l.Member.FirstName).ThenBy(l => l.Member.LastName);
 
             Loan = await loansQuery.ToListAsync();
         }
