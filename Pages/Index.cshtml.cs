@@ -7,46 +7,49 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc;
 
-
-namespace toshokan.Pages;
-
-public class IndexModel : PageModel
+namespace toshokan.Pages
 {
-    private readonly toshokanContext _context;
-
-    public IndexModel(toshokanContext context)
+    public class IndexModel : PageModel
     {
-        _context = context;
-    }
+        private readonly toshokanContext _context;
 
-    public IList<Book> Books { get; set; }
-
-    [BindProperty(SupportsGet = true)]
-    public string SearchString { get; set; }
-    public SelectList Genres { get; set; }
-
-    [BindProperty(SupportsGet = true)]
-    public string BookGenre { get; set; }
-
-    public async Task OnGetAsync()
-    {
-        IQueryable<string> genreQuery = from m in _context.Book
-                                        orderby m.Genre
-                                        select m.Genre;
-
-        var books = from m in _context.Book
-                    select m;
-
-        if (!string.IsNullOrEmpty(SearchString))
+        public IndexModel(toshokanContext context)
         {
-            books = books.Where(s => s.Title.Contains(SearchString));
+            _context = context;
         }
 
-        if (!string.IsNullOrEmpty(BookGenre))
+        public IList<Book> Books { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string SearchString { get; set; }
+        public SelectList Genres { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string BookGenre { get; set; }
+
+        public async Task OnGetAsync()
         {
-            books = books.Where(x => x.Genre.Contains(BookGenre));
+            IQueryable<string> genreQuery = from m in _context.Book
+                                            orderby m.Genre
+                                            select m.Genre;
+
+            var books = from m in _context.Book
+                        select m;
+
+            if (!string.IsNullOrEmpty(SearchString))
+            {
+                string lowerCaseSearchString = SearchString.ToLower();
+                books = books.Where(s => s.Title.ToLower().Contains(lowerCaseSearchString));
+            }
+
+            if (!string.IsNullOrEmpty(BookGenre))
+            {
+                string lowerCaseBookGenre = BookGenre.ToLower();
+                books = books.Where(x => x.Genre.ToLower().Contains(lowerCaseBookGenre));
+            }
+
+            Genres = new SelectList(await genreQuery.Distinct().ToListAsync());
+            Books = await books.ToListAsync();
         }
-        Genres = new SelectList(await genreQuery.Distinct().ToListAsync());
-        Books = await books.ToListAsync();
     }
 }
