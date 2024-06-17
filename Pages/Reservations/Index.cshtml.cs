@@ -38,10 +38,13 @@ namespace toshokan.Pages.Reservations
 
             if (!string.IsNullOrEmpty(SearchString))
             {
-                string searchStringLower = SearchString.ToLower();
-                reservationQuery = reservationQuery.Where(r =>
-                    r.Member.FirstName.ToLower().Contains(searchStringLower) ||
-                    r.Member.LastName.ToLower().Contains(searchStringLower));
+                var searchWords = SearchString.ToLower().Split(' ');
+                foreach (var word in searchWords)
+                {
+                    reservationQuery = reservationQuery.Where(r =>
+                        r.Member.FirstName.ToLower().Contains(word) ||
+                        r.Member.LastName.ToLower().Contains(word));
+                }
             }
 
             if (!string.IsNullOrEmpty(SearchStatus))
