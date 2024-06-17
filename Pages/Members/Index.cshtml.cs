@@ -31,8 +31,11 @@ namespace toshokan.Pages.Members
             if (!string.IsNullOrEmpty(SearchString))
             {
                 string searchStringLower = SearchString.ToLower();
-                members = members.Where(m => m.FirstName.ToLower().Contains(searchStringLower) ||
-                                             m.LastName.ToLower().Contains(searchStringLower));
+                var searchWords = searchStringLower.Split(' ');
+
+                members = members.Where(m =>
+                    searchWords.Any(word => m.FirstName.ToLower().Contains(word) || m.LastName.ToLower().Contains(word)) ||
+                    searchWords.Length == 2 && m.FirstName.ToLower().Contains(searchWords[0]) && m.LastName.ToLower().Contains(searchWords[1]));
             }
 
             Member = await members.OrderBy(m => m.FirstName).ThenBy(m => m.LastName).ToListAsync();
